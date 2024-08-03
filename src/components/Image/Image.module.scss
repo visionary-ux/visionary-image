@@ -1,0 +1,22 @@
+/** Fallback for devices without aspect-ratio support */
+.container {
+  &:before {
+    content: "";
+    display: block;
+    padding-top: var(--v-ar);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.preventDrag {
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.preventSelection {
+  -webkit-user-select: none;
+  user-select: none;
+}

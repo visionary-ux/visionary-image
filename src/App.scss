@@ -1,0 +1,21 @@
+@import "./styles/includes.scss";
+
+@include dark-mode {
+  body {
+    background-color: black;
+  }
+}
+
+#root {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 2% 10%;
+}
+
+.input-inline {
+  display: inline-flex;
+}
+
+.mt {
+  margin-top: 1rem;
+}
