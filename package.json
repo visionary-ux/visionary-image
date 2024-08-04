@@ -1,6 +1,6 @@
 {
   "name": "visionary-image",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "./dist/visionary-image.umd.js",
   "module": "./dist/visionary-image.es.js",

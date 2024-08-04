@@ -36,8 +36,10 @@ describe("Image component", () => {
     expect(imageElement).toBeInstanceOf(HTMLImageElement);
     expect(imageElement).toHaveProperty("src");
     expect(imageElement).toHaveProperty("className");
-    expect(imageElement?.className).not.toContain("hidden");
     expect(imageElement.getAttribute("alt")).toEqual(altText);
+
+    const imageStyles = window.getComputedStyle(imageElement);
+    expect(imageStyles.display).not.toBe("none");
   });
 
   test("renders with blur disabled", () => {
@@ -50,7 +52,9 @@ describe("Image component", () => {
 
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     expect(imageElement).toBeInstanceOf(HTMLImageElement);
-    expect(imageElement?.className).not.toContain("hidden");
+
+    const imageStyles = window.getComputedStyle(imageElement!);
+    expect(imageStyles.display).not.toBe("none");
   });
 
   test("renders with image disabled", () => {
@@ -75,7 +79,9 @@ describe("Image component", () => {
 
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     expect(imageElement).toBeInstanceOf(HTMLImageElement);
-    expect(imageElement?.className).toContain("hidden");
+
+    const imageStyles = window.getComputedStyle(imageElement!);
+    expect(imageStyles.display).toBe("none");
   });
 
   // src as a Visionary code (not URL)

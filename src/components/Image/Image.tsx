@@ -13,7 +13,7 @@ import { BG_ALPHA, BLURHASH_PUNCH, CANVAS_SIZE } from "../../lib/constants";
 import { useIsomorphicLayoutEffect } from "../../lib/hook";
 import { logDebug } from "../../lib/logger";
 import { computeImageState } from "../../lib/state";
-import { canvasElementStyles, imageStyles } from "../../lib/styles";
+import { canvasElementStyles, getImageStyles } from "../../lib/styles";
 import { TEST_IDS } from "../../lib/test";
 import { getDebugIdProp, getTestIdProp, round } from "../../lib/util";
 
@@ -30,7 +30,7 @@ export const Image = ({
   disableImageLayer = false,
   endpoint,
   height: userHeight,
-  hideImageLayer,
+  hideImageLayer = false,
   lazy = true,
   onClick,
   onError,
@@ -156,10 +156,7 @@ export const Image = ({
   const containerProps: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> = {
     onClick,
   };
-  const imageClasses = classnames({
-    [styles.hidden]: !!hideImageLayer,
-  });
-
+  const imageStyles = getImageStyles(hideImageLayer);
   return (
     <div
       className={containerClasses}
@@ -184,7 +181,6 @@ export const Image = ({
         <img
           {...sharedImgProps}
           {...getTestIdProp(TEST_IDS.IMAGE)}
-          className={imageClasses}
           onError={handleImageError}
           src={imageState.src}
           style={imageStyles}
