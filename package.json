@@ -17,14 +17,14 @@
   "license": "ISC",
   "scripts": {
     "build": "tsc && npm run clean && vite build",
+    "build-storybook": "storybook build -o storybook-static",
     "clean": "rimraf dist/",
     "dev": "vite",
     "lint": "tsc --noEmit; eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006 --no-open",
-    "build-storybook": "storybook build"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "files": [
     "dist/",
