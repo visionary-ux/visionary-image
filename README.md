@@ -1,17 +1,17 @@
-# visionary-image
+# Visionary Image
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master&style=flat-square)
+React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.
 
-> Visionary Image rapidly renders blurhash placeholders and boosts Core Web Vitals.
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master&style=flat-square) ![npm package size (minzipped, via Bundlephobia)](https://img.shields.io/bundlephobia/minzip/visionary-image?style=flat-square&color=blue)
 
 **Features:**
 
-- Blurhash data encoded in the image URL via [visionary-url](https://github.com/visionary-ux/visionary-url) means zero latency image placeholders
-- Renders a true-to-size, responsive blurhash placeholder while the image loads, <u>eliminating Cumulative Layout Shift (CLS)</u>
-- Off-screen images are lazily loaded, reducing initial pageload size and request count, <u>improving Interaction to Next Paint (INP)</u>
+- Blurhash data encoded in the image URL via [visionary-url](https://github.com/visionary-ux/visionary-url) for instant image placeholders
+- Renders a true-to-size, responsive Blurhash placeholder while the image loads, eliminating Cumulative Layout Shift (CLS)
+- Images below the fold are lazily loaded, reducing initial page load size and request count, optimizing Interaction to Next Paint (INP)
 - Framework-tested (Remix, Next.js, Vite) with support for both client and server-side rendering (SSR, SSG) environments
 - Additional features: Prevent dragging, user-selection of image
-- Improves Core Web Vitals scores (CLS, and often INP and LCP) which are a primary ranking signal in Google Search
+- Improves Core Web Vitals scores which Google notes as an important ranking signal in Search.
 
 > "We highly recommend site owners achieve good Core Web Vitals for success with Search", [Google Search Central](https://developers.google.com/search/docs/appearance/core-web-vitals)
 
@@ -23,21 +23,19 @@ Install via npm, yarn, or pnpm.
 npm install --save visionary-image
 ```
 
-## Getting Started
+## Usage
 
-To render a Visionary Image, first create a Visionary URL.
+Create a Visionary image URL to get started.
 
 ### Creating a Visionary Image URL
 
-To create a Visionary URL from a public image URL see [Visionary URL Generator](#).
+There are several ways to create a Visionary URL.
 
-To generate Visionary data from a local file, use the [Drag-and-Drop Blurhash Generator](#).
+1. Use the [Visionary URL Maker](https://visionary.cloud/url-maker) for public image URLs
+2. Use the [Drag & Drop Blurhash Generator](https://visionary.cloud/image-to-blurhash) for local image files
+3. Use [visionary-url](https://github.com/visionary-ux/visionary-url) to programmatically generate a URL
 
-- Generate a Visionary URL at [https://visionary.cloud/url-generator](https://visionary.cloud/url-generator)
-- Copy a URL from your [Visionary Dashboard](https://visionary.cloud/dashboard)
-- Use this [sample URL]()
-
-### Render image component
+### Render Image
 
 ```tsx
 import { Image } from "visionary-image";

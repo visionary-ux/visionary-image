@@ -1,5 +1,6 @@
 {
   "name": "visionary-image",
+  "description": "React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.",
   "version": "1.0.1",
   "type": "module",
   "main": "./dist/visionary-image.umd.js",
@@ -85,12 +86,13 @@
     "core-web-vitals",
     "fid",
     "image",
-    "lcp",
+    "inp",
     "performance",
     "placeholder",
     "react",
     "seo",
     "speed",
+    "typescript",
     "visionary",
     "web-vitals"
   ]
