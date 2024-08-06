@@ -1,7 +1,7 @@
 {
   "name": "visionary-image",
   "description": "React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "main": "./dist/visionary-image.umd.js",
   "module": "./dist/visionary-image.es.js",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "classnames": "2.5.1",
-    "fast-blurhash": "1.1.2",
+    "fast-blurhash": "1.1.4",
     "react-hook-inview": "4.5.1",
     "visionary-url": "1.3.1"
   },
