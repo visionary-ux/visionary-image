@@ -5,6 +5,7 @@ import { ImageSizeToken } from "visionary-url";
 import { Image } from "../components/Image/Image";
 
 const sharedProps = {
+  alt: "White-petaled cherry blossom focused against a blurry background",
   debug: false,
   src: "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWyE0ITQ/md/image.jpg",
   width: 600,
