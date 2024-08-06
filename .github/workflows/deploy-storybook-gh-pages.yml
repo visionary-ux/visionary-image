@@ -1,7 +1,11 @@
-name: Deploy to GitHub Pages
+name: Deploy Storybook to GitHub Pages
 
 on:
   push:
+    branches:
+      - master
+      - storybook-gh-pages-debug
+  pull_request:
     branches:
       - master
 
@@ -22,9 +26,20 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
 
+      - name: List storybook folder contents
+        run: ls -R storybook-static
+
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/storybook-gh-pages-debug')
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
+
+      - name: Check gh-pages branch
+        # Only run this step if we actually deployed
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/storybook-gh-pages-debug')
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          ls -R
