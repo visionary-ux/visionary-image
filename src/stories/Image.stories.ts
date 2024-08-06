@@ -4,10 +4,11 @@ import { ImageSizeToken } from "visionary-url";
 
 import { Image } from "../components/Image/Image";
 
-const IMG_WIDTH = 600;
 const sharedProps = {
-  debug: true,
-  width: IMG_WIDTH,
+  alt: "White-petaled cherry blossom focused against a blurry background",
+  debug: false,
+  src: "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWyE0ITQ/md/image.jpg",
+  width: 600,
 };
 
 const meta = {
@@ -33,7 +34,6 @@ type Story = StoryObj<typeof meta>;
 export const FullImage: Story = {
   args: {
     ...sharedProps,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/image.jpg",
   },
 };
 
@@ -41,7 +41,6 @@ export const BlurOnly: Story = {
   args: {
     ...sharedProps,
     hideImageLayer: true,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/image.jpg",
   },
 };
 
@@ -50,7 +49,6 @@ export const BackgroundOnly: Story = {
     ...sharedProps,
     disableBlurLayer: true,
     hideImageLayer: true,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/image.jpg",
   },
 };
 
@@ -58,7 +56,6 @@ export const PreventDrag: Story = {
   args: {
     ...sharedProps,
     preventDrag: true,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/image.jpg",
   },
 };
 
@@ -66,24 +63,19 @@ export const PreventSelection: Story = {
   args: {
     ...sharedProps,
     preventSelection: true,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/image.jpg",
   },
 };
 
 export const CustomSizeToken: Story = {
   args: {
     ...sharedProps,
-    disableBlurLayer: true,
-    hideImageLayer: true,
     size: ImageSizeToken.xs,
-    src: "https://cdn.visionary.cloud/image/THVLc1dIUWJqcEY4ZnVLMzdwU25MITI0MDAhMTYwMCE0ZjZlOGEhVUhHYjssMEwtVXhiOHd-VkQlV0VFM0UzNG4lMnRVeFp4V0UxITQhNA/xl/image.jpg",
   },
 };
 
 export const ExternalImageUrl: Story = {
   args: {
     ...sharedProps,
-    debug: true,
     src: "https://link.visionary.cloud/image/aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cSEzITM/image.jpg",
   },
 };
@@ -91,7 +83,6 @@ export const ExternalImageUrl: Story = {
 export const ExternalImageUrlViaCode: Story = {
   args: {
     ...sharedProps,
-    debug: true,
     src: "aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cSEzITM",
   },
 };
@@ -99,7 +90,6 @@ export const ExternalImageUrlViaCode: Story = {
 export const NativeImgFallback: Story = {
   args: {
     ...sharedProps,
-    debug: true,
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/View_of_the_ISS_taken_during_Crew-2_flyaround_%28ISS066-E-081311%29.jpg/1280px-View_of_the_ISS_taken_during_Crew-2_flyaround_%28ISS066-E-081311%29.jpg",
   },
 };
