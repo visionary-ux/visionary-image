@@ -20,7 +20,7 @@ React image component with built-in Blurhash placeholders for better UX and Core
 ### Lighthouse Performance
 
 Lighthouse report filmstrip showing three-layer image loading process
-![Lighthouse report loading stage filmstrip](#)
+![Lighthouse report loading stage filmstrip](https://github.com/user-attachments/assets/20fd15ad-6801-4105-b75d-bf12cc8c704e)
 
 ## Installation
 
