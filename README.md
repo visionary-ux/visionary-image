@@ -13,7 +13,7 @@ React image component with built-in Blurhash placeholders for better UX and Core
 - **Framework tested**: Compatible with Remix, Next.js, and Vite and supports both client and server-side rendering (SSR, SSG).
 - **Additional features**: Prevent image dragging; prevent user selecting image
 - **Developer friendly**: Written in Typescript and [unit tested](./src/components/Image/__test__/).
-  - Check out the [interactive Storybook sandbox](https://viz-github.io/visionary-image)
+  - Check out the [interactive Storybook sandbox](https://visionary-ux.github.io/visionary-image/)
 - **Search performance**: Enhance search ranking potential by improving Core Web Vitals scores.
   > "We highly recommend site owners achieve good Core Web Vitals for success with Search" — [Google Search Central](https://developers.google.com/search/docs/appearance/core-web-vitals)
 
@@ -47,7 +47,7 @@ There are several ways to create a Visionary URL.
 ```tsx
 import { Image } from "visionary-image";
 
-const ImageDetails = () => <Image alt="Baobab tree " src="<Visionary Image URL>" />;
+const ImageDetails = () => <Image alt="..." src="<Visionary URL>" />;
 ```
 
 ## Component Props
