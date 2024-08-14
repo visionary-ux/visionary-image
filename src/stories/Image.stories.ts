@@ -66,6 +66,16 @@ export const PreventSelection: Story = {
   },
 };
 
+export const CustomAspectRatio: Story = {
+  args: {
+    ...sharedProps,
+    style: {
+      aspectRatio: "3 / 1",
+      transform: "translateY(-30%)",
+    },
+  },
+};
+
 export const CustomSizeToken: Story = {
   args: {
     ...sharedProps,

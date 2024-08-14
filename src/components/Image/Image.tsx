@@ -9,6 +9,8 @@ import type {
 } from "react";
 import { useInView } from "react-hook-inview";
 
+import { ImageWrapper } from "./ImageWrapper";
+
 import { BG_ALPHA, BLURHASH_PUNCH, CANVAS_SIZE } from "../../lib/constants";
 import { useIsomorphicLayoutEffect } from "../../lib/hook";
 import { logDebug } from "../../lib/logger";
@@ -139,12 +141,12 @@ export const Image = ({
   } as CSSProperties;
   const containerStyles: CSSProperties = {
     ...customAspectRatioCssVariable,
+    ...userStyles,
     aspectRatio: imageState.aspectRatio,
     backgroundColor: imageState?.backgroundColor ?? undefined,
     maxWidth: imageState.maxWidth,
     position: "relative",
     width: "100%",
-    ...userStyles,
   };
   // User wants to hardcode height/width
   if (userWidth) {
@@ -157,11 +159,12 @@ export const Image = ({
     onClick,
   };
   const imageStyles = getImageStyles(hideImageLayer);
-  return (
+  const imageComponent = (
     <div
       className={containerClasses}
       ref={containerRef}
       style={containerStyles}
+      // style={{ aspectRatio }}
       {...getDebugIdProp(imageState.url, debug)}
       {...getTestIdProp(TEST_IDS.CONTAINER)}
       {...containerProps}
@@ -188,4 +191,10 @@ export const Image = ({
       )}
     </div>
   );
+
+  // Apply user-specified aspect ratio via <ImageWrapper>
+  if (userStyles?.aspectRatio) {
+    return <ImageWrapper aspectRatio={userStyles.aspectRatio}>{imageComponent}</ImageWrapper>;
+  }
+  return imageComponent;
 };
