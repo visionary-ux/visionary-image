@@ -2,7 +2,7 @@
 
 React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.
 
-![GitHub Release](https://img.shields.io/github/v/release/visionary-ux/visionary-image?color=beige) [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master&style=flat-square)](https://github.com/visionary-ux/visionary-image/actions/workflows/ci-cd-workflow.yml?query=branch%3Amaster) [![npm package size (minzipped, via Bundlephobia)](https://img.shields.io/bundlephobia/minzip/visionary-image?style=flat-square&color=blue)](https://bundlephobia.com/package/visionary-image) [![Storybook demo](https://img.shields.io/badge/-Storybook-FF4785?style=flat-square&logo=storybook&logoColor=white)](https://visionary-ux.github.io/visionary-image/)
+![GitHub Release](https://img.shields.io/github/v/release/visionary-ux/visionary-image?color=beige) [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master)](https://github.com/visionary-ux/visionary-image/actions/workflows/ci-cd-workflow.yml?query=branch%3Amaster) [![npm package size (minzipped, via Bundlephobia)](https://img.shields.io/bundlephobia/minzip/visionary-image?color=blue)](https://bundlephobia.com/package/visionary-image) ![NPM Downloads](https://img.shields.io/npm/d18m/visionary-image?color=lightgray) [![Storybook demo](https://img.shields.io/badge/-Storybook-FF4785?logo=storybook&logoColor=white)](https://visionary-ux.github.io/visionary-image/)
 
 ## Features
 
