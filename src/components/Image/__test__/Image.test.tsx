@@ -225,7 +225,7 @@ describe("Image component", () => {
       expect(containerStyles.maxWidth).toBe("220px");
     });
 
-    test.only("user can specify custom aspect-ratio", () => {
+    test("user can specify custom aspect-ratio", () => {
       const customAspectRatio = "3 / 1";
       render(<Image src={testVisionaryUrl} style={{ aspectRatio: customAspectRatio }} />);
 
