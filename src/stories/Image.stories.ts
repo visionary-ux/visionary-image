@@ -66,6 +66,13 @@ export const PreventSelection: Story = {
   },
 };
 
+export const CustomSizeToken: Story = {
+  args: {
+    ...sharedProps,
+    size: ImageSizeToken.xs,
+  },
+};
+
 export const CustomAspectRatio: Story = {
   args: {
     ...sharedProps,
@@ -74,13 +81,17 @@ export const CustomAspectRatio: Story = {
       transform: "translateY(-30%)",
     },
   },
+  name: "Custom aspect-ratio style",
 };
 
-export const CustomSizeToken: Story = {
+export const CustomMaxWidth: Story = {
   args: {
     ...sharedProps,
-    size: ImageSizeToken.xs,
+    style: {
+      maxWidth: 210,
+    },
   },
+  name: "Custom max-width style",
 };
 
 export const ExternalImageUrl: Story = {

@@ -148,12 +148,17 @@ export const Image = ({
     position: "relative",
     width: "100%",
   };
-  // User wants to hardcode height/width
+  // Apply user-specified container width
   if (userWidth) {
     containerStyles.width = userWidth;
   }
+  // Apply user-specified container height
   if (userHeight) {
     containerStyles.height = userHeight;
+  }
+  // Allow user to override container's max-width
+  if (userStyles?.maxWidth) {
+    containerStyles.maxWidth = userStyles.maxWidth;
   }
   const containerProps: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> = {
     onClick,
@@ -164,7 +169,6 @@ export const Image = ({
       className={containerClasses}
       ref={containerRef}
       style={containerStyles}
-      // style={{ aspectRatio }}
       {...getDebugIdProp(imageState.url, debug)}
       {...getTestIdProp(TEST_IDS.CONTAINER)}
       {...containerProps}

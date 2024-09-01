@@ -215,6 +215,27 @@ describe("Image component", () => {
     });
   });
 
+  describe("Style overrides", () => {
+    test("user can override max-width", () => {
+      render(<Image src={testVisionaryUrl} style={{ maxWidth: 220 }} />);
+
+      const containerElement = screen.getByTestId(TEST_IDS.CONTAINER);
+      const containerStyles = window.getComputedStyle(containerElement);
+
+      expect(containerStyles.maxWidth).toBe("220px");
+    });
+
+    test("user can specify custom aspect-ratio", () => {
+      const customAspectRatio = "3 / 1";
+      render(<Image src={testVisionaryUrl} style={{ aspectRatio: customAspectRatio }} />);
+
+      const containerElement = screen.getByTestId(TEST_IDS.ASPECT_RATIO_WRAPPER);
+      const containerStyles = window.getComputedStyle(containerElement);
+
+      expect(containerStyles.getPropertyValue("aspect-ratio")).toBe(customAspectRatio);
+    });
+  });
+
   describe("Using ordinary (non-visionary) URL ", () => {
     test("renders fallback <img /> element when src is not visionary", () => {
       const testClassname = "v7y_tester";
