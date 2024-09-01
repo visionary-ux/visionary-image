@@ -169,7 +169,6 @@ export const Image = ({
       className={containerClasses}
       ref={containerRef}
       style={containerStyles}
-      // style={{ aspectRatio }}
       {...getDebugIdProp(imageState.url, debug)}
       {...getTestIdProp(TEST_IDS.CONTAINER)}
       {...containerProps}
