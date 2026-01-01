@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
 
-import { IS_SSR } from "./constants";
+import { IS_SSR } from "../lib/constants";
 
 export const useIsomorphicLayoutEffect = IS_SSR ? () => {} : useLayoutEffect;
