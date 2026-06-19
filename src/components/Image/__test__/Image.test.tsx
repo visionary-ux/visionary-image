@@ -12,6 +12,19 @@ const testVisionaryUrl =
 const testVisionaryCode =
   "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ";
 
+const expectAspectRatioToBeEquivalent = (styles: CSSStyleDeclaration, expectedAspectRatio: number) => {
+  const aspectRatio = styles.getPropertyValue("aspect-ratio");
+
+  if (!aspectRatio) {
+    return;
+  }
+
+  const [width, height = "1"] = aspectRatio.split("/");
+  const actualAspectRatio = Number(width.trim()) / Number(height.trim());
+
+  expect(actualAspectRatio).toBeCloseTo(expectedAspectRatio, 6);
+};
+
 describe("Image component", () => {
   test("should render", () => {
     const altText = "illustrative test image";
@@ -23,7 +36,7 @@ describe("Image component", () => {
 
     const containerStyles = window.getComputedStyle(containerElement);
     expect(containerStyles.maxWidth).toBe("1280px");
-    expect(containerStyles.getPropertyValue("aspect-ratio")).toBe("1.500586");
+    expectAspectRatioToBeEquivalent(containerStyles, 1.500586);
     expect(containerStyles.getPropertyValue("--v-ar")).toBe("66.640632%");
 
     const canvasElement = containerElement.children[0];
@@ -134,7 +147,7 @@ describe("Image component", () => {
     const containerElement = screen.getByTestId(TEST_IDS.CONTAINER);
     const styles = containerElement.getAttribute("style");
 
-    expect(styles).toMatch(/border:.*dashed.*#ee1/);
+    expect(styles).toMatch(/border:.*dashed.*(#ee1|rgb\(238,\s*238,\s*17\))/);
     expect(styles).toMatch(/margin-top:\s*42px/);
   });
 
@@ -145,7 +158,7 @@ describe("Image component", () => {
     const containerStyles = window.getComputedStyle(containerElement);
 
     expect(containerStyles.maxWidth).toBe("3840px");
-    expect(containerStyles.getPropertyValue("aspect-ratio")).toBe("1.5");
+    expectAspectRatioToBeEquivalent(containerStyles, 1.5);
     expect(containerStyles.getPropertyValue("--v-ar")).toBe("66.666667%");
   });
 

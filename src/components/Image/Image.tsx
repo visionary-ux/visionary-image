@@ -156,7 +156,7 @@ export const Image = ({
       height: userHeight,
       onClick,
       onError,
-      src,
+      src: src || undefined,
       style: userStyles,
       width: userWidth,
     };
