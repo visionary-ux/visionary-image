@@ -23,7 +23,6 @@ const meta = {
     },
   },
   component: Image,
-  decorators: [],
   tags: ["autodocs"],
   title: "Visionary Image",
 } satisfies Meta<typeof Image>;
