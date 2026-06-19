@@ -13,8 +13,8 @@ export default defineConfig({
       entry: {
         blurhash: resolve(__dirname, "src/blurhash.ts"),
         loader: resolve(__dirname, "src/loader.ts"),
-        register: resolve(__dirname, "src/register-web-component.ts"),
         "web-component": resolve(__dirname, "src/web-component.ts"),
+        "web-component/register": resolve(__dirname, "src/web-component/register.ts"),
       },
       formats: ["es"],
     },
@@ -30,10 +30,10 @@ export default defineConfig({
       include: [
         "src/blurhash.ts",
         "src/lib/canvas.ts",
-        "src/web-components/VisionaryImageElement.ts",
+        "src/web-component/VisionaryImageElement.ts",
         "src/loader.ts",
-        "src/register-web-component.ts",
         "src/web-component.ts",
+        "src/web-component/register.ts",
       ],
     }),
   ],

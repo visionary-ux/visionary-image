@@ -215,13 +215,13 @@ export class VisionaryImageElement extends HTMLElement {
  * Register the custom element. Call this once in your app:
  *
  * ```js
- * import { registerVisionaryImage } from 'visionary-image/element';
+ * import { registerVisionaryImage } from 'visionary-image/web-component';
  * registerVisionaryImage();
  * ```
  *
  * Or use the auto-registering import:
  * ```js
- * import 'visionary-image/element/auto';
+ * import 'visionary-image/web-component/register';
  * ```
  */
 export function registerVisionaryImage(tagName = "visionary-image") {

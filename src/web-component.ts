@@ -7,4 +7,4 @@
  * registerVisionaryImage(); // registers <visionary-image> custom element
  * ```
  */
-export { VisionaryImageElement, registerVisionaryImage } from "./web-components/VisionaryImageElement";
+export { VisionaryImageElement, registerVisionaryImage } from "./web-component/VisionaryImageElement";
