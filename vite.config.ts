@@ -37,7 +37,7 @@ export default defineConfig({
       styleId: "v7y-styles",
     }),
     dts({
-      bundleTypes: true,
+      insertTypesEntry: true,
     }),
   ],
   server: {

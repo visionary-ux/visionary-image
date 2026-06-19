@@ -11,16 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16, 18, 20, 22]
+        include:
+          - node-version: 20
+            pnpm-version: 10
+          - node-version: 22
+            pnpm-version: 11.5.1
+          - node-version: 24
+            pnpm-version: 11.5.1
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ matrix.pnpm-version }}
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
