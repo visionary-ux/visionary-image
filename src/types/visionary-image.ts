@@ -60,6 +60,11 @@ export interface VisionaryImageProps {
   /**
    * Blurhash punch parameter (default: 1)
    */
+  /**
+   * Mark as priority image (above-the-fold). Sets fetchpriority="high" and loading="eager".
+   * Use for LCP images to improve Core Web Vitals.
+   */
+  priority?: boolean;
   punch?: number;
   /** If specified, overrides the size specified in a Visionary URL */
   size?: ImageSizeToken;

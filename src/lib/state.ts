@@ -105,7 +105,7 @@ export const computeImageState = (
       logDebug("Visionary Image state: ", imageState);
     }
     return imageState;
-  } catch (err) {
+  } catch {
     return null;
   }
 };
