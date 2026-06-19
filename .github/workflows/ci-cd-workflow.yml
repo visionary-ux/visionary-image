@@ -1,8 +1,10 @@
-name: visionary-image CI/CD
+name: Visionary Image CI — Build and test
 
 on:
   pull_request:
   push:
+    branches:
+      - master
 
 jobs:
   build_and_test:
@@ -15,8 +17,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 11
 
       - uses: actions/setup-node@v4
         with:
