@@ -9,6 +9,7 @@ lerna-debug.log*
 
 bin
 node_modules
+.pnpm-store/
 dist
 storybook-static
 *.local
