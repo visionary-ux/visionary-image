@@ -31,6 +31,10 @@
       "import": "./dist/web-component/register.js"
     }
   },
+  "sideEffects": [
+    "./dist/loader.js",
+    "./dist/web-component/register.js"
+  ],
   "license": "ISC",
   "scripts": {
     "build": "tsc && pnpm run clean && vite build && vite build --config vite.config.autoload.ts",

@@ -15,7 +15,7 @@ export default defineConfig({
       name: "VisionaryImage",
     },
     rollupOptions: {
-      external: ["react", "react/react-dom", "react/jsx-runtime"],
+      external: ["react", "react-dom", "react/jsx-runtime"],
       output: {
         globals: {
           react: "React",
@@ -38,6 +38,7 @@ export default defineConfig({
     }),
     dts({
       insertTypesEntry: true,
+      include: ["src/index.ts", "src/components/Image/Image.tsx", "src/types/visionary-image.ts"],
     }),
   ],
   server: {
