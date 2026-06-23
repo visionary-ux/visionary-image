@@ -62,8 +62,8 @@ export const Image = ({
   const [containerRef, isVisible] = useInView({ rootMargin: "200px" });
   /** Unique key for this canvas instance, stable across server/client rendering */
   const canvasKey = useId();
-  /** Track if we've rendered blurhash for this instance */
-  const hasRenderedRef = useRef(false);
+  /** Track the latest blurhash+punch rendered for this instance */
+  const lastRenderKeyRef = useRef<string | null>(null);
 
   useIsomorphicLayoutEffect(
     function renderBlurhashCanvas() {
@@ -79,6 +79,7 @@ export const Image = ({
         console.error("[visionary-image] No blurhash in imageState, cannot render canvas");
         return;
       }
+      const renderKey = `${blurhash}:${punch}`;
       /** For lazy images (non-priority), defer blurhash until approaching viewport */
       if (!priority && lazy && !isVisible) {
         if (debug) {
@@ -86,17 +87,22 @@ export const Image = ({
         }
         return;
       }
-      /** Skip if already rendered (by this effect or early loader) */
-      if (hasRenderedRef.current) {
+      /** Skip redundant repaint */
+      if (lastRenderKeyRef.current === renderKey) {
         return;
       }
-      const renderedSet = getRenderedCanvasSet();
-      if (renderedSet.has(canvasKey)) {
-        if (debug) {
-          logDebug("Canvas already rendered by early loader, skipping");
+
+      // Prevent duplicate first paint from SSR/loader; subsequent blurhash changes can redraw
+      if (lastRenderKeyRef.current === null) {
+        const renderedSet = getRenderedCanvasSet();
+        // Loader renders with default punch, so only skip the first paint when punch matches.
+        if (renderedSet.has(canvasKey) && punch === BLURHASH_PUNCH) {
+          if (debug) {
+            logDebug("Canvas already rendered by early loader, skipping");
+          }
+          lastRenderKeyRef.current = renderKey;
+          return;
         }
-        hasRenderedRef.current = true;
-        return;
       }
 
       const tStart = performance.now();
@@ -113,7 +119,7 @@ export const Image = ({
       const imageData = ctx.createImageData(CANVAS_SIZE, CANVAS_SIZE);
       imageData.data.set(pixels);
       ctx.putImageData(imageData, 0, 0);
-      hasRenderedRef.current = true;
+      lastRenderKeyRef.current = renderKey;
 
       if (debug) {
         const tElapsed = performance.now() - tStart;

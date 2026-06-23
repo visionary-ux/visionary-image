@@ -5,10 +5,13 @@ import { describe, expect, test, vi } from "vitest";
 
 import { Image } from "../Image";
 
+import * as canvasLib from "../../../lib/canvas";
 import { TEST_IDS } from "../../../lib/test";
 
 const testVisionaryUrl =
   "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZCE0ITQ/lg/blue-flower-dark.jpg";
+const testVisionaryUrlAlt =
+  "https://visionary.test/image/WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ/sm/image.jpg";
 
 const testVisionaryCode =
   "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ";
@@ -247,6 +250,45 @@ describe("Image component", () => {
       const containerStyles = window.getComputedStyle(containerElement);
 
       expect(containerStyles.getPropertyValue("aspect-ratio")).toBe(customAspectRatio);
+    });
+  });
+
+  describe("Canvas rerender behavior", () => {
+    test("re-renders blurhash canvas when punch changes", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} punch={1} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+        expect(decodeSpy.mock.calls[0]?.[2]).toBe(1);
+
+        rerender(<Image lazy={false} punch={2} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+        expect(decodeSpy.mock.calls[1]?.[2]).toBe(2);
+      } finally {
+        decodeSpy.mockRestore();
+      }
+    });
+
+    test("re-renders blurhash canvas when blurhash changes", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+
+        rerender(<Image lazy={false} src={testVisionaryUrlAlt} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+        expect(decodeSpy.mock.calls[0]?.[0]).not.toBe(decodeSpy.mock.calls[1]?.[0]);
+      } finally {
+        decodeSpy.mockRestore();
+      }
     });
   });
 
