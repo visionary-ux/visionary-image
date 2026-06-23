@@ -1,5 +1,5 @@
 import { decodeBlurHash } from "fast-blurhash";
-import { parseVisionaryString } from "visionary-url";
+import { parseVisionaryString } from "blurhash-url";
 
 import { getPixelCache } from "../lib/canvas";
 import { BG_ALPHA, BLURHASH_PUNCH, CANVAS_SIZE } from "../lib/constants";
@@ -80,15 +80,15 @@ export class VisionaryImageElement extends HTMLElement {
     const src = this.getAttribute("src");
     if (!src) return;
 
-    // Parse visionary data from URL
-    const visionaryData = parseVisionaryString(src);
-    if (!visionaryData) {
+    // Parse Blurhash URL data
+    const blurhashUrlData = parseVisionaryString(src);
+    if (!blurhashUrlData) {
       // Fallback: just render a regular img
       this.renderFallbackImage(src);
       return;
     }
 
-    const { fields } = visionaryData;
+    const { fields } = blurhashUrlData;
     const { blurhash, sourceWidth, sourceHeight, bcc } = fields;
     const isPriority = this.getAttribute("priority") === "true";
     const isLazy = !isPriority && this.getAttribute("lazy") !== "false";

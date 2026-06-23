@@ -9,7 +9,7 @@ React image component with built-in Blurhash placeholders for better UX and Core
 - **Easy Blurhash:** Get started with Blurhash in 60 seconds.
 - **Layout stability**: Eliminates Cumulative Layout Shift (CLS) with true-to-size, responsive placeholders.
 - **Automatic lazy loading**: Off-screen images are deferred, reducing initial pageload size and optimizing Interaction to Next Paint (INP).
-- **Lighning-fast previews**: Renders placeholders early (by initial DOM layout) using URL-embedded Blurhash data, powered by [`visionary-url`](https://github.com/visionary-ux/visionary-url).
+- **Lighning-fast previews**: Renders placeholders early (by initial DOM layout) using URL-embedded Blurhash data, powered by [`blurhash-url`](https://github.com/visionary-ux/blurhash-url).
 - **Framework tested**: Compatible with Remix, Next.js, and Vite and supports both client and server-side rendering (SSR, SSG).
 - **Additional features**: Prevent image dragging; prevent user selecting image
 - **Developer friendly**: Written in Typescript and [unit tested](./src/components/Image/__test__/).
@@ -32,46 +32,46 @@ npm install --save visionary-image
 
 ## Usage
 
-Begin by creating a Visionary image URL. This is then passed to the `src` prop of the Image component.
+Begin by creating a Blurhash URL. This is then passed to the `src` prop of the Image component.
 
-### Creating a Visionary Image URL
+### Creating a Blurhash URL
 
-There are several ways to create a Visionary URL.
+There are several ways to create a Blurhash URL.
 
-1. Use the [Visionary URL Maker](https://visionary.cloud/url-maker) for public image URLs
+1. Use the [Blurhash URL Maker](https://visionary.cloud/url-maker) for public image URLs
 2. Use the [Drag & Drop Blurhash Generator](https://visionary.cloud/image-to-blurhash) for local image files
-3. Use [visionary-url](https://github.com/visionary-ux/visionary-url) to programmatically generate a URL
+3. Use [blurhash-url](https://github.com/visionary-ux/blurhash-url) to programmatically generate a URL
 
 ### Render Image
 
 ```tsx
 import { Image } from "visionary-image";
 
-const ImageDetails = () => <Image alt="..." src="<Visionary URL>" />;
+const ImageDetails = () => <Image alt="..." src="<Blurhash URL>" />;
 ```
 
 ## Component Props
 
-| Name                              | Description                                                                                                                                                                              |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `alt` <br/> string                | Image `alt` tag. Adding alt text to images is highly recommended to accommodate accessible devices and improve discoverability.                                                          |
-| `bgColorAlpha` <br/> number       | Base layer (background color) alpha channel.<br /> Default: `0.7`                                                                                                                        |
-| `className` <br/> string          | Classname applied to the container `div` or the fallback `img` element.                                                                                                                  |
-| `debug` <br/> boolean             | Prints handy debug info to the console (Visionary URL data, render times).                                                                                                               |
-| `disableBlurLayer` <br/> boolean  | Disables rendering of the blur (canvas) layer.                                                                                                                                           |
-| `disableImageLayer` <br/> boolean | Disables rendering of the image layer.                                                                                                                                                   |
-| `height` <br/>number, string      | If set, will override internally computed image height. By default, Visionary renders optimally sized images, using the aspect-ratio and max-width placeholder data.                     |
-| `hideImageLayer` <br/> boolean    | Hides the image layer, revealing the blur layer underneath.                                                                                                                              |
-| `lazy` <br/> boolean              | Should image load lazily. <br/> Default: `true`                                                                                                                                          |
-| `onClick` <br/> function          | Callback function to invoke when the image is clicked. function.                                                                                                                         |
-| `onError` <br/> function          | Error callback function.                                                                                                                                                                 |
-| `onLoad` <br/> function           | Image loaded callback function.                                                                                                                                                          |
-| `preventDrag` <br/>boolean        | Prevents user from dragging the image element.                                                                                                                                           |
-| `preventSelection` <br/>boolean   | Prevents user from highlighting the image element.                                                                                                                                       |
-| `priority` <br/>boolean           | Mark as priority image (above-the-fold). Sets `fetchpriority="high"` and `loading="eager"`. Use for LCP images.<br /> Default: `false`                                                   |
-| `punch` <br/>number               | Blurhash punch parameter.<br /> Default: `1`                                                                                                                                             |
-| `src` <br/>string                 | Visionary URL, Visionary Code, or ordinary image URL.<br/> If `src` contains Visionary data, placeholders will be rendered, otherwise falls back to an `img` element. <br/> **required** |
-| `width` <br/>number, string       | If set, will override internally computed image width. By default, Visionary renders optimally sized images, using the aspect-ratio and max-width placeholder data.                      |
+| Name                              | Description                                                                                                                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `alt` <br/> string                | Image `alt` tag. Adding alt text to images is highly recommended to accommodate accessible devices and improve discoverability.                                                            |
+| `bgColorAlpha` <br/> number       | Base layer (background color) alpha channel.<br /> Default: `0.7`                                                                                                                          |
+| `className` <br/> string          | Classname applied to the container `div` or the fallback `img` element.                                                                                                                    |
+| `debug` <br/> boolean             | Prints handy debug info to the console (Blurhash URL data, render times).                                                                                                                  |
+| `disableBlurLayer` <br/> boolean  | Disables rendering of the blur (canvas) layer.                                                                                                                                             |
+| `disableImageLayer` <br/> boolean | Disables rendering of the image layer.                                                                                                                                                     |
+| `height` <br/>number, string      | If set, will override internally computed image height. By default, Visionary renders optimally sized images, using the aspect-ratio and max-width placeholder data.                       |
+| `hideImageLayer` <br/> boolean    | Hides the image layer, revealing the blur layer underneath.                                                                                                                                |
+| `lazy` <br/> boolean              | Should image load lazily. <br/> Default: `true`                                                                                                                                            |
+| `onClick` <br/> function          | Callback function to invoke when the image is clicked. function.                                                                                                                           |
+| `onError` <br/> function          | Error callback function.                                                                                                                                                                   |
+| `onLoad` <br/> function           | Image loaded callback function.                                                                                                                                                            |
+| `preventDrag` <br/>boolean        | Prevents user from dragging the image element.                                                                                                                                             |
+| `preventSelection` <br/>boolean   | Prevents user from highlighting the image element.                                                                                                                                         |
+| `priority` <br/>boolean           | Mark as priority image (above-the-fold). Sets `fetchpriority="high"` and `loading="eager"`. Use for LCP images.<br /> Default: `false`                                                     |
+| `punch` <br/>number               | Blurhash punch parameter.<br /> Default: `1`                                                                                                                                               |
+| `src` <br/>string                 | Blurhash URL, Visionary Code, or ordinary image URL.<br/> If `src` contains Blurhash URL data, placeholders will be rendered, otherwise falls back to an `img` element. <br/> **required** |
+| `width` <br/>number, string       | If set, will override internally computed image width. By default, Visionary renders optimally sized images, using the aspect-ratio and max-width placeholder data.                        |
 
 ## Relevant Questions
 

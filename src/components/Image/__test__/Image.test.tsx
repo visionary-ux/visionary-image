@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { ImageSizeToken, generateVisionaryUrl, parseVisionaryUrl } from "visionary-url";
+import { generateBlurhashUrl, parseBlurhashUrl } from "blurhash-url";
+import { ImageSizeToken } from "blurhash-url/constants";
 import { describe, expect, test, vi } from "vitest";
 
 import { Image } from "../Image";
@@ -97,7 +98,7 @@ describe("Image component", () => {
     expect(imageStyles.display).toBe("none");
   });
 
-  // src as a Visionary code (not URL)
+  // src as a Visionary code (not a full Blurhash URL)
   test("renders with a Visionary code", () => {
     render(<Image src={testVisionaryCode} />);
 
@@ -108,8 +109,8 @@ describe("Image component", () => {
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     const imageSrc = imageElement?.getAttribute("src");
 
-    const visionaryData = parseVisionaryUrl(imageSrc as string);
-    expect(visionaryData?.options.size).toBe(ImageSizeToken.lg);
+    const blurhashUrlData = parseBlurhashUrl(imageSrc as string);
+    expect(blurhashUrlData?.options.size).toBe(ImageSizeToken.lg);
   });
 
   test("controls image size via `size` prop", () => {
@@ -122,12 +123,12 @@ describe("Image component", () => {
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     const imageSrc = imageElement?.getAttribute("src");
 
-    const visionaryData = parseVisionaryUrl(imageSrc as string);
-    expect(visionaryData?.options.size).toBe(ImageSizeToken.sm);
+    const blurhashUrlData = parseBlurhashUrl(imageSrc as string);
+    expect(blurhashUrlData?.options.size).toBe(ImageSizeToken.sm);
   });
 
   test("`endpoint` prop specifies custom endpoint", () => {
-    const visionaryUrl = generateVisionaryUrl({
+    const visionaryUrl = generateBlurhashUrl({
       sourceHeight: 1024,
       sourceWidth: 768,
       url: "n4bMJ3r",

@@ -8,7 +8,7 @@
  */
 
 import { decodeBlurHash } from "fast-blurhash";
-import { parseVisionaryString } from "visionary-url";
+import { parseVisionaryString } from "blurhash-url";
 
 import { CANVAS_SIZE, BLURHASH_PUNCH } from "./constants";
 
@@ -105,7 +105,7 @@ function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
     return;
   }
 
-  // Find sibling img element to get the visionary URL
+  // Find sibling img element to get the Blurhash URL
   const siblingImg = canvas.parentElement?.querySelector("img") as HTMLImageElement | null;
   if (!siblingImg?.src) {
     if (debug) {
@@ -114,16 +114,16 @@ function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
     return;
   }
 
-  // Parse visionary URL to extract blurhash
-  const visionaryData = parseVisionaryString(siblingImg.src);
-  if (!visionaryData?.fields?.blurhash) {
+  // Parse Blurhash URL data to extract blurhash
+  const blurhashUrlData = parseVisionaryString(siblingImg.src);
+  if (!blurhashUrlData?.fields?.blurhash) {
     if (debug) {
-      console.log(`[visionary-loader] Sibling img is not a visionary URL, skipping`);
+      console.log(`[visionary-loader] Sibling img is not a Blurhash URL, skipping`);
     }
     return;
   }
 
-  const { blurhash } = visionaryData.fields;
+  const { blurhash } = blurhashUrlData.fields;
 
   if (debug) {
     console.log(`[visionary-loader] Rendering canvas:`, {

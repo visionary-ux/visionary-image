@@ -37,7 +37,6 @@ export default defineConfig({
       styleId: "v7y-styles",
     }),
     dts({
-      insertTypesEntry: true,
       include: ["src/index.ts", "src/components/Image/Image.tsx", "src/types/visionary-image.ts"],
     }),
   ],

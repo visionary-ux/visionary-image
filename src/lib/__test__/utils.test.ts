@@ -1,8 +1,7 @@
 import { describe, expect, test } from "vitest";
 
 import { createUrl, round, generateRgbaString, RGB, swapUrlOrigin, getMaxEdgeLength } from "../util";
-import { IMAGE_SIZES } from "visionary-url/constants";
-import { ImageSizeToken } from "visionary-url";
+import { IMAGE_SIZES, ImageSizeToken } from "blurhash-url/constants";
 
 describe("utils", () => {
   describe(createUrl.name, () => {

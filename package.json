@@ -7,10 +7,10 @@
   "main": "./dist/visionary-image.umd.js",
   "module": "./dist/visionary-image.es.js",
   "source": "./src/index.ts",
-  "types": "./dist/visionary-image.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/visionary-image.d.ts",
+      "types": "./dist/index.d.ts",
       "import": "./dist/visionary-image.es.js",
       "require": "./dist/visionary-image.umd.js"
     },
@@ -58,9 +58,9 @@
     "url": "git+https://github.com/visionary-ux/visionary-image.git"
   },
   "dependencies": {
+    "blurhash-url": "file:bin/blurhash-url-1.4.0a.tgz",
     "classnames": "2.5.1",
-    "fast-blurhash": "1.1.4",
-    "visionary-url": "1.3.3"
+    "fast-blurhash": "1.1.4"
   },
   "peerDependencies": {
     "react": ">=16.9.0",

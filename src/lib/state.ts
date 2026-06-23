@@ -1,6 +1,7 @@
 import { decodeBlurHash } from "fast-blurhash";
-import { generateVisionaryUrl, isBase64UrlEncoded, parseVisionaryString } from "visionary-url";
-import { IMAGE_SIZES } from "visionary-url/constants";
+import { generateBlurhashUrl, isBase64UrlEncoded, parseVisionaryString } from "blurhash-url";
+import type { GenerateBlurhashUrlInput } from "blurhash-url";
+import { IMAGE_SIZES } from "blurhash-url/constants";
 
 import { BG_ALPHA, BLURHASH_PUNCH, CANVAS_SIZE, DEFAULT_IMAGE_SIZE, IS_SSR } from "./constants";
 import { logDebug } from "./logger";
@@ -9,7 +10,7 @@ import { generateRgbaString, hexToRGB, getMaxEdgeLength, round, createUrl, swapU
 import type { ImageState, ImageStateConfig } from "../types/visionary-image";
 
 /**
- * Parses `imageSrc` for Visionary data. If present, calculates image properties, decodes blurhash
+ * Parses `imageSrc` for Blurhash URL data. If present, calculates image properties, decodes blurhash
  * string into canvas pixel data.
  * @returns ImageState | null
  */
@@ -28,14 +29,14 @@ export const computeImageState = (
     if (userConfig.debug) {
       logDebug("input imageSrc:", imageSrc);
     }
-    const visionaryData = parseVisionaryString(imageSrc);
+    const blurhashUrlData = parseVisionaryString(imageSrc);
     if (userConfig.debug) {
-      logDebug("Visionary URL data: ", visionaryData);
+      logDebug("Blurhash URL data: ", blurhashUrlData);
     }
-    if (!visionaryData) {
-      throw new Error("Could not parse Visionary URL");
+    if (!blurhashUrlData) {
+      throw new Error("Could not parse Blurhash URL");
     }
-    const { fields, options } = visionaryData;
+    const { fields, options } = blurhashUrlData;
     if (fields.sourceWidth < 1 || fields.sourceHeight < 1) {
       throw new Error("Invalid image dimensions");
     }
@@ -67,14 +68,22 @@ export const computeImageState = (
       maxWidth,
       src: imageSrc,
     };
-    /** Override `imageState.src` if Visionary field `url` is a URL  */
+    /** Override `imageState.src` if Blurhash URL `url` field is a URL  */
     const urlFieldAsURL = createUrl(fields.url);
     if (urlFieldAsURL) {
       imageState.src = urlFieldAsURL.toString();
     }
     // if `imageSrc` isn't a URL and `url` field is a file ID, generate a URL for `imageState.src`
     else if (!createUrl(imageSrc) && isBase64UrlEncoded(fields.url)) {
-      const generatedUrl = generateVisionaryUrl(fields, {
+      const generateInput: GenerateBlurhashUrlInput = {
+        altText: fields.altText,
+        bcc: fields.bcc,
+        blurhash: fields.blurhash,
+        sourceHeight: fields.sourceHeight,
+        sourceWidth: fields.sourceWidth,
+        url: fields.url,
+      };
+      const generatedUrl = generateBlurhashUrl(generateInput, {
         endpoint: userConfig.endpoint,
         size: imageSize,
       });

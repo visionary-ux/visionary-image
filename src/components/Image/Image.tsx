@@ -144,11 +144,11 @@ export const Image = ({
   };
 
   /**
-   * Visionary data not detected, render fallback <img />
+   * Blurhash URL data not detected, render fallback <img />
    */
   if (!imageState) {
     if (debug) {
-      logDebug("Not a Visionary URL, rendering fallback <img />");
+      logDebug("Not a Blurhash URL, rendering fallback <img />");
     }
     const fallbackImgProps: ImgHTMLAttributes<HTMLImageElement> = {
       ...sharedImgProps,

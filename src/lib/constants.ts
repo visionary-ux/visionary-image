@@ -1,4 +1,4 @@
-import { ImageSizeToken } from "visionary-url";
+import { ImageSizeToken } from "blurhash-url/constants";
 
 /** Placeholder div background-color alpha channel */
 export const BG_ALPHA = 0.7;
@@ -9,7 +9,7 @@ export const BLURHASH_PUNCH = 1;
 /** Width/height of canvas element (this is stretched to fill the image background layer) */
 export const CANVAS_SIZE = 24;
 
-/** If Visionary data is present without a specified resolution, default to `lg` (1280px) */
+/** If Blurhash URL data is present without a specified resolution, default to `lg` (1280px) */
 export const DEFAULT_IMAGE_SIZE = ImageSizeToken.lg;
 
 /** Environment */

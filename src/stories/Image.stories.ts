@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { ImageSizeToken } from "visionary-url";
+import { ImageSizeToken } from "blurhash-url/constants";
 
 import { Image } from "../components/Image/Image";
 
