@@ -58,7 +58,7 @@
     "url": "git+https://github.com/visionary-ux/visionary-image.git"
   },
   "dependencies": {
-    "blurhash-url": "file:bin/blurhash-url-1.4.0a.tgz",
+    "blurhash-url": "^1.4.0",
     "classnames": "2.5.1",
     "fast-blurhash": "1.1.4"
   },
