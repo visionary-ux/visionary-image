@@ -6,7 +6,7 @@ import "./App.scss";
 
 function App() {
   const [imageSrc] = useState(
-    "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWyE0ITQ/md/image.jpg"
+    "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWw/md/image.jpg"
   );
   const [isImageLayerDisabled, setIsImageLayerDisabled] = useState(false);
   const [isBlurLayerDisabled, setIsBlurLayerDisabled] = useState(false);

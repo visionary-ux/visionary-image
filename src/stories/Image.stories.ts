@@ -7,7 +7,7 @@ import { Image } from "../components/Image/Image";
 const sharedProps = {
   alt: "White-petaled cherry blossom focused against a blurry background",
   debug: false,
-  src: "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWyE0ITQ/md/image.jpg",
+  src: "https://cdn.visionary.cloud/image/Y3Fra2RzdHFwcCEyMDAwITEzMzMhYTdjMWM0IVVuR20zfC5tdFFzLnlGYmNSamFmSW9SUFdCV1dSKk5HVkBqWw/md/image.jpg",
   width: 600,
 };
 
@@ -96,14 +96,14 @@ export const CustomMaxWidth: Story = {
 export const ExternalImageUrl: Story = {
   args: {
     ...sharedProps,
-    src: "https://link.visionary.cloud/image/aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cSEzITM/image.jpg",
+    src: "https://blurhash.link/image/aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cQ/image.jpg",
   },
 };
 
 export const ExternalImageUrlViaCode: Story = {
   args: {
     ...sharedProps,
-    src: "aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cSEzITM",
+    src: "aHR0cHM6Ly9pLmltZ3VyLmNvbS82VWxMa2dKX2Qud2VicD9tYXh3aWR0aD03NjAmZmlkZWxpdHk9Z3JhbmQhNzYwITMyMyE1ZjM2MGMhSzZBWyMqeDswaTF3eFk9djBqcnZ9cQ",
   },
 };
 
