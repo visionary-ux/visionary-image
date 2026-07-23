@@ -290,6 +290,25 @@ describe("Image component", () => {
         decodeSpy.mockRestore();
       }
     });
+
+    test("re-renders blurhash canvas when the blur layer is re-enabled", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} src={testVisionaryUrl} />);
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+
+        rerender(<Image disableBlurLayer lazy={false} src={testVisionaryUrl} />);
+        expect(screen.queryByTestId(TEST_IDS.CANVAS)).toBeNull();
+
+        rerender(<Image lazy={false} src={testVisionaryUrl} />);
+        expect(screen.getByTestId(TEST_IDS.CANVAS)).toBeInstanceOf(HTMLCanvasElement);
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+      } finally {
+        decodeSpy.mockRestore();
+      }
+    });
   });
 
   describe("Using ordinary (non-visionary) URL ", () => {

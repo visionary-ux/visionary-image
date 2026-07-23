@@ -70,24 +70,29 @@ export const Image = ({
       const canvas = canvasRef.current;
       const blurhash = imageState?.blurhash;
 
-      /** Canvas element not ready */
+      // Reset paint tracking when the canvas is removed so a replacement canvas gets painted
+      if (disableBlurLayer) {
+        lastRenderKeyRef.current = null;
+        return;
+      }
+      // Canvas element not ready
       if (!canvas) {
         return;
       }
-      /** No blurhash data available */
+      // No blurhash data available
       if (!blurhash) {
         console.error("[visionary-image] No blurhash in imageState, cannot render canvas");
         return;
       }
       const renderKey = `${blurhash}:${punch}`;
-      /** For lazy images (non-priority), defer blurhash until approaching viewport */
+      // For lazy images (non-priority), defer blurhash until approaching viewport
       if (!priority && lazy && !isVisible) {
         if (debug) {
           logDebug("Lazy image not yet visible, deferring blurhash render");
         }
         return;
       }
-      /** Skip redundant repaint */
+      // Skip redundant repaint
       if (lastRenderKeyRef.current === renderKey) {
         return;
       }
@@ -126,7 +131,7 @@ export const Image = ({
         logDebug(`Canvas render time: ${round(tElapsed, 1)} ms`);
       }
     },
-    [canvasKey, imageState?.blurhash, punch, debug, lazy, priority, isVisible]
+    [canvasKey, imageState?.blurhash, punch, debug, disableBlurLayer, lazy, priority, isVisible]
   );
 
   const handleImageError = useCallback(
