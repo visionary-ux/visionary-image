@@ -52,9 +52,11 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
-          registry-url: https://registry.npmjs.org/
           package-manager-cache: false
 
+      - name: Update npm for trusted publishing
+        run: npm install --global npm@latest
+      - run: npm --version
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run types:validate
