@@ -27,6 +27,17 @@ function getLazyObserver(): IntersectionObserver {
 }
 
 /**
+ * Fallback base for Node/SSR imports where `HTMLElement` is undefined.
+ * The class is only registered (and used) in browsers via `registerVisionaryImage()`.
+ */
+const HTMLElementBase: typeof HTMLElement =
+  typeof HTMLElement !== "undefined"
+    ? HTMLElement
+    : (class {
+        /* SSR/Node stub */
+      } as unknown as typeof HTMLElement);
+
+/**
  * Web Component for Visionary Image with lazy blurhash rendering.
  *
  * Usage:
@@ -41,7 +52,7 @@ function getLazyObserver(): IntersectionObserver {
  * For lazy="true" (default), blurhash renders when element approaches viewport (200px margin).
  * For lazy="false", blurhash renders immediately in connectedCallback.
  */
-export class VisionaryImageElement extends HTMLElement {
+export class VisionaryImageElement extends HTMLElementBase {
   private canvas: HTMLCanvasElement | null = null;
   private img: HTMLImageElement | null = null;
   private container: HTMLDivElement | null = null;
@@ -225,7 +236,7 @@ export class VisionaryImageElement extends HTMLElement {
  * ```
  */
 export function registerVisionaryImage(tagName = "visionary-image") {
-  if (typeof customElements === "undefined") return;
+  if (typeof HTMLElement === "undefined" || typeof customElements === "undefined") return;
   if (customElements.get(tagName)) return; // Already registered
 
   customElements.define(tagName, VisionaryImageElement);

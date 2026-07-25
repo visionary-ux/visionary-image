@@ -1,43 +1,91 @@
 {
   "name": "visionary-image",
   "description": "Visionary Image — The easiest way to Blurhash. Renders true-to-size placeholders that eliminate layout shift and crush Core Web Vitals. SSR-ready React & Web Components.",
-  "version": "1.1.0",
+  "version": "1.1.0-pre.0",
   "homepage": "https://visionary.cloud",
   "type": "module",
-  "main": "./dist/visionary-image.umd.js",
+  "main": "./dist/visionary-image.cjs",
   "module": "./dist/visionary-image.es.js",
   "source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/visionary-image.es.js",
-      "require": "./dist/visionary-image.umd.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/visionary-image.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/visionary-image.cjs"
+      }
     },
     "./loader": {
-      "types": "./dist/loader.d.ts",
-      "import": "./dist/loader.js"
+      "import": {
+        "types": "./dist/loader.d.ts",
+        "default": "./dist/loader.js"
+      },
+      "require": {
+        "types": "./dist/loader.d.cts",
+        "default": "./dist/loader.cjs"
+      }
     },
     "./blurhash": {
-      "types": "./dist/blurhash.d.ts",
-      "import": "./dist/blurhash.js"
+      "import": {
+        "types": "./dist/blurhash.d.ts",
+        "default": "./dist/blurhash.js"
+      },
+      "require": {
+        "types": "./dist/blurhash.d.cts",
+        "default": "./dist/blurhash.cjs"
+      }
     },
     "./web-component": {
-      "types": "./dist/web-component.d.ts",
-      "import": "./dist/web-component.js"
+      "import": {
+        "types": "./dist/web-component.d.ts",
+        "default": "./dist/web-component.js"
+      },
+      "require": {
+        "types": "./dist/web-component.d.cts",
+        "default": "./dist/web-component.cjs"
+      }
     },
     "./web-component/register": {
-      "types": "./dist/web-component/register.d.ts",
-      "import": "./dist/web-component/register.js"
+      "import": {
+        "types": "./dist/web-component/register.d.ts",
+        "default": "./dist/web-component/register.js"
+      },
+      "require": {
+        "types": "./dist/web-component/register.d.cts",
+        "default": "./dist/web-component/register.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "loader": [
+        "./dist/loader.d.ts"
+      ],
+      "blurhash": [
+        "./dist/blurhash.d.ts"
+      ],
+      "web-component": [
+        "./dist/web-component.d.ts"
+      ],
+      "web-component/register": [
+        "./dist/web-component/register.d.ts"
+      ]
     }
   },
   "sideEffects": [
     "./dist/loader.js",
-    "./dist/web-component/register.js"
+    "./dist/loader.cjs",
+    "./dist/web-component/register.js",
+    "./dist/web-component/register.cjs"
   ],
   "license": "ISC",
   "scripts": {
-    "build": "tsc && pnpm run clean && vite build && vite build --config vite.config.autoload.ts",
+    "build": "tsc && pnpm run clean && vite build && vite build --config vite.config.autoload.ts && pnpm run build:cts",
+    "build:cts": "node scripts/copy-cts.mjs",
     "build-storybook": "storybook build -o storybook-static",
     "clean": "rimraf dist/",
     "dev": "vite",
@@ -45,7 +93,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 --no-open",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "types:validate": "attw --pack ."
   },
   "files": [
     "dist/",
@@ -60,42 +109,44 @@
   "dependencies": {
     "blurhash-url": "^1.4.0",
     "classnames": "2.5.1",
-    "fast-blurhash": "1.1.4"
+    "fast-blurhash": "1.2.0"
   },
   "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@storybook/react": "10.4.4",
-    "@storybook/react-vite": "10.4.4",
-    "@testing-library/react": "16.3.1",
-    "@types/node": "20.19.6",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@microsoft/api-extractor": "^7.58.11",
+    "@storybook/react": "10.5.0",
+    "@storybook/react-vite": "10.5.0",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "22.20.1",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/eslint-plugin": "8.61.0",
     "@typescript-eslint/parser": "8.61.0",
     "@vitejs/plugin-legacy": "8.0.2",
     "@vitejs/plugin-react-swc": "4.3.1",
-    "eslint": "10.5.0",
+    "eslint": "10.7.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.1.1",
     "eslint-plugin-react-refresh": "0.5.3",
     "eslint-plugin-sort-keys-fix": "1.1.2",
-    "eslint-plugin-storybook": "10.4.6",
+    "eslint-plugin-storybook": "10.5.0",
     "eslint-plugin-typescript-sort-keys": "3.3.0",
     "jsdom": "29.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rimraf": "6.1.2",
     "sass": "1.97.1",
-    "storybook": "10.4.6",
+    "storybook": "10.5.0",
     "storybook-dark-mode": "5.0.0",
     "typescript": "5.9.3",
-    "vite": "8.0.16",
+    "unplugin-dts": "^1.0.3",
+    "vite": "8.1.4",
     "vite-plugin-css-injected-by-js": "5.0.1",
-    "vite-plugin-dts": "5.0.2",
     "vitest": "4.1.8",
     "vitest-canvas-mock": "1.1.3"
   },

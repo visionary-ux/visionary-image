@@ -86,3 +86,10 @@ Canvas operations are highly efficient in modern browsers. Rendering the 24x24 p
 ### What is Blurhash and where can I learn more?
 
 Blurhash uses Discrete Cosine Transforms to represent a color-accurate image placeholder as a compact string (in 20-30 characters). Check out the official [Blurhash docs](https://github.com/woltapp/blurhash) for more info.
+
+## Related packages
+
+| Package                                                                    | Use for                                                            |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **`visionary-image`** (this package)                                       | React apps (`<Image />`), or the `<visionary-image>` web component |
+| [`visionary-image-js`](https://github.com/visionary-ux/visionary-image-js) | Zero-config `<script>` / CDN, or framework-agnostic SSR HTML       |

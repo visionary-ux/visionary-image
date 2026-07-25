@@ -1,10 +1,9 @@
 import { resolve } from "path";
 import { defineConfig } from "vite";
-import dts from "vite-plugin-dts";
+import dts from "unplugin-dts/vite";
 
 /**
- * Separate build config for non-React entries (ES-only, no React dependency)
- * Includes: autoload, web component
+ * Separate build config for non-React entries (blurhash, loader, web component).
  */
 export default defineConfig({
   build: {
@@ -16,17 +15,13 @@ export default defineConfig({
         "web-component": resolve(__dirname, "src/web-component.ts"),
         "web-component/register": resolve(__dirname, "src/web-component/register.ts"),
       },
-      formats: ["es"],
-    },
-    rollupOptions: {
-      output: {
-        // Ensure consistent naming
-        entryFileNames: "[name].js",
-      },
+      fileName: (format, entryName) => `${entryName}.${format === "es" ? "js" : "cjs"}`,
+      formats: ["es", "cjs"],
     },
   },
   plugins: [
     dts({
+      bundleTypes: true,
       include: [
         "src/blurhash.ts",
         "src/lib/canvas.ts",
