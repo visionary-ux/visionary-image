@@ -1,11 +1,26 @@
-name: Visionary Image - Publish NPM Package Workflow (via created release)
+name: Publish package to npm
 
 on:
   release:
-    types: [created]
+    types: [published]
 
 jobs:
+  ensure-version-match:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Verify package version matches release tag
+        run: |
+          RELEASE_TAG=${{ github.event.release.tag_name }}
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [ "$RELEASE_TAG" != "v$PKG_VERSION" ]; then
+            echo "Error: Release tag '$RELEASE_TAG' does not match package.json version 'v$PKG_VERSION'"
+            exit 1
+          fi
+
   build-and-test:
+    needs: ensure-version-match
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -20,10 +35,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm test
+      - run: pnpm run types:validate
 
   publish-npm:
     needs: build-and-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v6
 
@@ -34,9 +53,12 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           registry-url: https://registry.npmjs.org/
+          package-manager-cache: false
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
-      - run: pnpm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - run: pnpm run types:validate
+      - name: Publish dry-run
+        run: npm publish --dry-run --tag next
+      - name: Publish to npm
+        run: npm publish --tag next
