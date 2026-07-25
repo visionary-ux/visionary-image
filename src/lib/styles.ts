@@ -11,8 +11,9 @@ const absoluteCoverStyles: CSSProperties = {
 /** We apply CSS on the image directly via the `style` prop, as a delay in .css file loading can cause a FOUC. */
 export const baseImageStyles: CSSProperties = {
   ...absoluteCoverStyles,
-  maxHeight: "100%",
-  maxWidth: "100%",
+  height: "100%",
+  objectFit: "cover",
+  width: "100%",
 };
 
 export const canvasElementStyles: CSSProperties = {

@@ -1,4 +1,4 @@
-@import "./style/includes.scss";
+@use "./style/includes.scss" as *;
 
 @include dark-mode {
   body {
