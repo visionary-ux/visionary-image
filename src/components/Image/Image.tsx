@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useId, useMemo, useRef } from "react";
 import type {
   CSSProperties,
   DetailedHTMLProps,
@@ -7,12 +7,13 @@ import type {
   ImgHTMLAttributes,
   SyntheticEvent,
 } from "react";
-import { useInView } from "react-hook-inview";
 
 import { ImageWrapper } from "./ImageWrapper";
 
+import { useInView } from "../../hook/useInView";
+import { useIsomorphicLayoutEffect } from "../../hook/useIsomorphicLayoutEffect";
+import { getRenderedCanvasSet, getOrDecodePixels } from "../../lib/canvas";
 import { BG_ALPHA, BLURHASH_PUNCH, CANVAS_SIZE } from "../../lib/constants";
-import { useIsomorphicLayoutEffect } from "../../lib/hook";
 import { logDebug } from "../../lib/logger";
 import { computeImageState } from "../../lib/state";
 import { canvasElementStyles, getImageStyles } from "../../lib/styles";
@@ -34,6 +35,7 @@ export const Image = ({
   height: userHeight,
   hideImageLayer = false,
   lazy = true,
+  priority = false,
   onClick,
   onError,
   onLoad,
@@ -56,39 +58,80 @@ export const Image = ({
   }, [bgColorAlpha, debug, disableBlurLayer, endpoint, punch, size, src]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [containerRef, isVisible] = useInView();
+  /** Track visibility with 200px margin so blurhash renders before entering viewport */
+  const [containerRef, isVisible] = useInView({ rootMargin: "200px" });
+  /** Unique key for this canvas instance, stable across server/client rendering */
+  const canvasKey = useId();
+  /** Track the latest blurhash+punch rendered for this instance */
+  const lastRenderKeyRef = useRef<string | null>(null);
 
   useIsomorphicLayoutEffect(
     function renderBlurhashCanvas() {
-      /** Wait until canvas and blurhash data are ready */
-      const isPending = !canvasRef.current || !imageState?.blurhash;
-      if (isPending) {
+      const canvas = canvasRef.current;
+      const blurhash = imageState?.blurhash;
+
+      // Reset paint tracking when the canvas is removed so a replacement canvas gets painted
+      if (disableBlurLayer) {
+        lastRenderKeyRef.current = null;
         return;
       }
-      if (!imageState.pixels) {
-        console.warn("No pixel data passed in, skipping");
+      // Canvas element not ready
+      if (!canvas) {
         return;
       }
+      // No blurhash data available
+      if (!blurhash) {
+        console.error("[visionary-image] No blurhash in imageState, cannot render canvas");
+        return;
+      }
+      const renderKey = `${blurhash}:${punch}`;
+      // For lazy images (non-priority), defer blurhash until approaching viewport
+      if (!priority && lazy && !isVisible) {
+        if (debug) {
+          logDebug("Lazy image not yet visible, deferring blurhash render");
+        }
+        return;
+      }
+      // Skip redundant repaint
+      if (lastRenderKeyRef.current === renderKey) {
+        return;
+      }
+
+      // Prevent duplicate first paint from SSR/loader; subsequent blurhash changes can redraw
+      if (lastRenderKeyRef.current === null) {
+        const renderedSet = getRenderedCanvasSet();
+        // Loader renders with default punch, so only skip the first paint when punch matches.
+        if (renderedSet.has(canvasKey) && punch === BLURHASH_PUNCH) {
+          if (debug) {
+            logDebug("Canvas already rendered by early loader, skipping");
+          }
+          lastRenderKeyRef.current = renderKey;
+          return;
+        }
+      }
+
       const tStart = performance.now();
-      const canvasRenderingContext = canvasRef.current.getContext("2d");
-      if (!canvasRenderingContext) {
-        console.warn("Cannot access canvasRenderingContext, skipping");
+      const pixels = getOrDecodePixels(blurhash, CANVAS_SIZE, punch);
+      if (!pixels) {
+        console.error("[visionary-image] Could not decode blurhash pixels");
         return;
       }
-      const imageData = canvasRenderingContext.createImageData(CANVAS_SIZE, CANVAS_SIZE);
-      if (!imageData) {
-        console.warn("Could not create ImageData on CanvasRenderingContext");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) {
+        console.error("[visionary-image] Cannot access canvas 2d context");
         return;
       }
-      imageData.data.set(imageState.pixels);
-      canvasRenderingContext.putImageData(imageData, 0, 0);
+      const imageData = ctx.createImageData(CANVAS_SIZE, CANVAS_SIZE);
+      imageData.data.set(pixels);
+      ctx.putImageData(imageData, 0, 0);
+      lastRenderKeyRef.current = renderKey;
 
       if (debug) {
         const tElapsed = performance.now() - tStart;
         logDebug(`Canvas render time: ${round(tElapsed, 1)} ms`);
       }
     },
-    [imageState?.blurhash, imageState?.pixels, debug]
+    [canvasKey, imageState?.blurhash, punch, debug, disableBlurLayer, lazy, priority, isVisible]
   );
 
   const handleImageError = useCallback(
@@ -106,16 +149,17 @@ export const Image = ({
   /** Props for both the Visionary <img /> element as well as the fallback <img /> */
   const sharedImgProps: ImgHTMLAttributes<HTMLImageElement> = {
     alt: altText,
-    loading: !lazy || isVisible ? "eager" : "lazy",
+    fetchPriority: priority ? "high" : undefined,
+    loading: priority || !lazy || isVisible ? "eager" : "lazy",
     onLoad,
   };
 
   /**
-   * Visionary data not detected, render fallback <img />
+   * Blurhash URL data not detected, render fallback <img />
    */
   if (!imageState) {
     if (debug) {
-      logDebug("Not a Visionary URL, rendering fallback <img />");
+      logDebug("Not a Blurhash URL, rendering fallback <img />");
     }
     const fallbackImgProps: ImgHTMLAttributes<HTMLImageElement> = {
       ...sharedImgProps,
@@ -123,7 +167,7 @@ export const Image = ({
       height: userHeight,
       onClick,
       onError,
-      src,
+      src: src || undefined,
       style: userStyles,
       width: userWidth,
     };
@@ -175,6 +219,7 @@ export const Image = ({
     >
       {!disableBlurLayer && (
         <canvas
+          data-v7y-key={canvasKey}
           height={CANVAS_SIZE}
           ref={canvasRef}
           style={canvasElementStyles}
@@ -184,7 +229,7 @@ export const Image = ({
       )}
 
       {!disableImageLayer && (
-        // eslint-disable-next-line jsx-a11y/alt-text -- `sharedImgProps` includes alt tag
+        // eslint-disable-next-line jsx-a11y/alt-text -- (`sharedImgProps` includes alt tag)
         <img
           {...sharedImgProps}
           {...getTestIdProp(TEST_IDS.IMAGE)}

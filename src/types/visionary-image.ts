@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import { ImageSizeToken } from "visionary-url";
-import type { VisionaryImageFields, VisionaryImageOptions } from "visionary-url";
+import type { BlurhashUrlFields, BlurhashUrlOptions } from "blurhash-url";
+import type { ImageSizeToken } from "blurhash-url/constants";
 
 export interface VisionaryImageProps {
   /**
@@ -14,7 +14,7 @@ export interface VisionaryImageProps {
   /** Classname applied to the container `div` or the fallback `img` element. */
   className?: string;
   /**
-   * Print debug info (Visionary data, render times) to the console
+   * Print debug info (Blurhash URL data, render times) to the console
    */
   debug?: boolean;
   /**
@@ -25,7 +25,7 @@ export interface VisionaryImageProps {
    * Disable rendering of image layer
    */
   disableImageLayer?: boolean;
-  /** Custom endpoint for image URLs (when using `generateVisionaryUrl()`) */
+  /** Custom endpoint for image URLs (when using `generateBlurhashUrl()`) */
   endpoint?: string;
   height?: number | string;
   /**
@@ -48,7 +48,7 @@ export interface VisionaryImageProps {
    * Callback function to run after image load
    */
   onLoad?: () => void;
-  options?: VisionaryImageOptions;
+  options?: BlurhashUrlOptions;
   /**
    * Prevents user from dragging the image element
    */
@@ -60,11 +60,16 @@ export interface VisionaryImageProps {
   /**
    * Blurhash punch parameter (default: 1)
    */
+  /**
+   * Mark as priority image (above-the-fold). Sets fetchpriority="high" and loading="eager".
+   * Use for LCP images to improve Core Web Vitals.
+   */
+  priority?: boolean;
   punch?: number;
-  /** If specified, overrides the size specified in a Visionary URL */
+  /** If specified, overrides the size specified in a Blurhash URL */
   size?: ImageSizeToken;
   /**
-   * Image `src` prop; if `src` contains a Visionary code, a Visionary image will be rendered, otherwise we fall back to a native `<img />` tag
+   * Image `src` prop; if `src` contains a Blurhash URL, a Visionary image is rendered, otherwise falls back to a native `<img />` tag
    */
   src: string;
   /** Styles are applied to the Visionary container (or the fallback <img> if a Visionary Image is not rendered) */
@@ -72,7 +77,7 @@ export interface VisionaryImageProps {
   width?: number | string;
 }
 
-export interface ImageState extends VisionaryImageFields {
+export interface ImageState extends BlurhashUrlFields {
   /** Aspect ratio of the image as a percentage, applied as padding-top */
   arPaddingTop?: string;
 
@@ -93,6 +98,6 @@ export interface ImageState extends VisionaryImageFields {
   src: string;
 }
 
-export interface ImageStateConfig extends Pick<VisionaryImageOptions, "debug" | "endpoint" | "size"> {
+export interface ImageStateConfig extends Pick<BlurhashUrlOptions, "debug" | "endpoint" | "size"> {
   disableBlurLayer?: boolean;
 }

@@ -9,6 +9,7 @@ lerna-debug.log*
 
 bin
 node_modules
+.pnpm-store/
 dist
 storybook-static
 *.local
@@ -23,3 +24,4 @@ storybook-static
 *.njsproj
 *.sln
 *.sw?
+*.tsbuildinfo

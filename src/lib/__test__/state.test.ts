@@ -3,9 +3,9 @@ import { describe, expect, test } from "vitest";
 import { computeImageState } from "../state";
 
 describe(computeImageState.name, () => {
-  test("Visionary URL", () => {
+  test("Blurhash URL", () => {
     const url =
-      "https://visionary.test/image/WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ/sm/image.jpg";
+      "https://visionary.test/image/WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC/sm/image.jpg";
 
     const state = computeImageState(url);
 
@@ -13,9 +13,9 @@ describe(computeImageState.name, () => {
     expect(state?.maxWidth).toBe(228); // ('sm' size is 228x320)
   });
 
-  test("Visionary Code", () => {
+  test("Visionary code", () => {
     const visionaryCode =
-      "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ";
+      "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC";
 
     const state = computeImageState(visionaryCode);
 
@@ -25,7 +25,7 @@ describe(computeImageState.name, () => {
     expect(state?.blurhashY).toBe(5);
   });
 
-  test("non-Visionary URL", () => {
+  test("non-Blurhash URL", () => {
     const state = computeImageState("https://i.imgur.com/aaaaa.jpg");
 
     expect(state).toBe(null);

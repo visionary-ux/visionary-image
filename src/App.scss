@@ -1,8 +1,10 @@
-@import "./styles/includes.scss";
+@use "./style/includes.scss" as *;
 
 @include dark-mode {
   body {
     background-color: black;
+    color: white;
+    color-scheme: dark;
   }
 }
 

@@ -1,93 +1,165 @@
 {
   "name": "visionary-image",
-  "description": "React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.",
-  "version": "1.0.4",
+  "description": "Visionary Image — The easiest way to Blurhash. Renders true-to-size placeholders that eliminate layout shift and crush Core Web Vitals. SSR-ready React & Web Components.",
+  "version": "1.1.0-pre.0",
   "homepage": "https://visionary.cloud",
   "type": "module",
-  "main": "./dist/visionary-image.umd.js",
+  "main": "./dist/visionary-image.cjs",
   "module": "./dist/visionary-image.es.js",
   "source": "./src/index.ts",
-  "types": "./dist/visionary-image.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/visionary-image.es.js",
-      "require": "./dist/visionary-image.umd.js",
-      "types": "./dist/visionary-image.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/visionary-image.es.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/visionary-image.cjs"
+      }
+    },
+    "./loader": {
+      "import": {
+        "types": "./dist/loader.d.ts",
+        "default": "./dist/loader.js"
+      },
+      "require": {
+        "types": "./dist/loader.d.cts",
+        "default": "./dist/loader.cjs"
+      }
+    },
+    "./blurhash": {
+      "import": {
+        "types": "./dist/blurhash.d.ts",
+        "default": "./dist/blurhash.js"
+      },
+      "require": {
+        "types": "./dist/blurhash.d.cts",
+        "default": "./dist/blurhash.cjs"
+      }
+    },
+    "./web-component": {
+      "import": {
+        "types": "./dist/web-component.d.ts",
+        "default": "./dist/web-component.js"
+      },
+      "require": {
+        "types": "./dist/web-component.d.cts",
+        "default": "./dist/web-component.cjs"
+      }
+    },
+    "./web-component/register": {
+      "import": {
+        "types": "./dist/web-component/register.d.ts",
+        "default": "./dist/web-component/register.js"
+      },
+      "require": {
+        "types": "./dist/web-component/register.d.cts",
+        "default": "./dist/web-component/register.cjs"
+      }
     }
   },
+  "typesVersions": {
+    "*": {
+      "loader": [
+        "./dist/loader.d.ts"
+      ],
+      "blurhash": [
+        "./dist/blurhash.d.ts"
+      ],
+      "web-component": [
+        "./dist/web-component.d.ts"
+      ],
+      "web-component/register": [
+        "./dist/web-component/register.d.ts"
+      ]
+    }
+  },
+  "sideEffects": [
+    "./dist/loader.js",
+    "./dist/loader.cjs",
+    "./dist/web-component/register.js",
+    "./dist/web-component/register.cjs"
+  ],
   "license": "ISC",
   "scripts": {
-    "build": "tsc && npm run clean && vite build",
+    "build": "tsc && pnpm run clean && vite build && vite build --config vite.config.autoload.ts && pnpm run build:cts",
+    "build:cts": "node scripts/copy-cts.mjs",
     "build-storybook": "storybook build -o storybook-static",
     "clean": "rimraf dist/",
     "dev": "vite",
     "lint": "tsc --noEmit; eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006 --no-open",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "types:validate": "attw --pack ."
   },
   "files": [
     "dist/",
     "package.json",
     "README.md"
   ],
+  "packageManager": "pnpm@11.5.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/visionary-ux/visionary-image.git"
   },
   "dependencies": {
+    "blurhash-url": "^1.4.0",
     "classnames": "2.5.1",
-    "fast-blurhash": "1.1.4",
-    "react-hook-inview": "4.5.1",
-    "visionary-url": "1.3.1"
+    "fast-blurhash": "1.2.0"
   },
   "peerDependencies": {
-    "react": ">=16.9.0",
-    "react-dom": ">=16.9.0"
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "8.2.7",
-    "@storybook/react": "8.2.7",
-    "@storybook/react-vite": "8.2.7",
-    "@testing-library/react": "14.3.1",
-    "@types/node": "18.19.1",
-    "@types/react": "18.3.1",
-    "@types/react-dom": "18.3.0",
-    "@typescript-eslint/eslint-plugin": "7.15.0",
-    "@typescript-eslint/parser": "7.15.0",
-    "@vitejs/plugin-legacy": "5.4.1",
-    "@vitejs/plugin-react-swc": "3.7.0",
-    "eslint": "8.57.0",
-    "eslint-plugin-jsx-a11y": "6.9.0",
-    "eslint-plugin-react": "7.35.0",
-    "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-react-refresh": "0.4.9",
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@microsoft/api-extractor": "^7.58.11",
+    "@storybook/react": "10.5.0",
+    "@storybook/react-vite": "10.5.0",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "22.20.1",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "@typescript-eslint/eslint-plugin": "8.61.0",
+    "@typescript-eslint/parser": "8.61.0",
+    "@vitejs/plugin-legacy": "8.0.2",
+    "@vitejs/plugin-react-swc": "4.3.1",
+    "eslint": "10.7.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
     "eslint-plugin-sort-keys-fix": "1.1.2",
-    "eslint-plugin-storybook": "0.8.0",
-    "eslint-plugin-typescript-sort-keys": "3.2.0",
-    "jsdom": "24.1.1",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "rimraf": "5.0.8",
-    "sass": "1.69.5",
-    "storybook": "8.2.7",
-    "storybook-dark-mode": "4.0.2",
-    "typescript": "5.5.4",
-    "vite": "5.3.5",
-    "vite-plugin-css-injected-by-js": "3.5.1",
-    "vite-plugin-dts": "3.9.1",
-    "vitest": "2.0.5",
-    "vitest-canvas-mock": "0.3.3"
+    "eslint-plugin-storybook": "10.5.0",
+    "eslint-plugin-typescript-sort-keys": "3.3.0",
+    "jsdom": "29.1.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "rimraf": "6.1.2",
+    "sass": "1.97.1",
+    "storybook": "10.5.0",
+    "storybook-dark-mode": "5.0.0",
+    "typescript": "5.9.3",
+    "unplugin-dts": "^1.0.3",
+    "vite": "8.1.4",
+    "vite-plugin-css-injected-by-js": "5.0.1",
+    "vitest": "4.1.8",
+    "vitest-canvas-mock": "1.1.3"
   },
   "keywords": [
     "blurhash",
     "cls",
     "component",
     "core-web-vitals",
+    "fcp",
     "fid",
     "image",
     "inp",
+    "lcp",
     "performance",
     "placeholder",
     "react",
@@ -95,6 +167,7 @@
     "speed",
     "typescript",
     "visionary",
+    "web-component",
     "web-vitals"
   ]
 }

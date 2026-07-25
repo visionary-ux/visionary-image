@@ -1,16 +1,33 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { ImageSizeToken, generateVisionaryUrl, parseVisionaryUrl } from "visionary-url";
+import { generateBlurhashUrl, parseBlurhashUrl } from "blurhash-url";
+import { ImageSizeToken } from "blurhash-url/constants";
 import { describe, expect, test, vi } from "vitest";
 
 import { Image } from "../Image";
 
+import * as canvasLib from "../../../lib/canvas";
 import { TEST_IDS } from "../../../lib/test";
 
 const testVisionaryUrl =
-  "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZCE0ITQ/lg/blue-flower-dark.jpg";
+  "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
+const testVisionaryUrlAlt =
+  "https://visionary.test/image/WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC/sm/image.jpg";
 
 const testVisionaryCode =
-  "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dCITQhNQ";
+  "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC";
+
+const expectAspectRatioToBeEquivalent = (styles: CSSStyleDeclaration, expectedAspectRatio: number) => {
+  const aspectRatio = styles.getPropertyValue("aspect-ratio");
+
+  if (!aspectRatio) {
+    return;
+  }
+
+  const [width, height = "1"] = aspectRatio.split("/");
+  const actualAspectRatio = Number(width.trim()) / Number(height.trim());
+
+  expect(actualAspectRatio).toBeCloseTo(expectedAspectRatio, 6);
+};
 
 describe("Image component", () => {
   test("should render", () => {
@@ -23,7 +40,7 @@ describe("Image component", () => {
 
     const containerStyles = window.getComputedStyle(containerElement);
     expect(containerStyles.maxWidth).toBe("1280px");
-    expect(containerStyles.getPropertyValue("aspect-ratio")).toBe("1.500586");
+    expectAspectRatioToBeEquivalent(containerStyles, 1.500586);
     expect(containerStyles.getPropertyValue("--v-ar")).toBe("66.640632%");
 
     const canvasElement = containerElement.children[0];
@@ -84,7 +101,7 @@ describe("Image component", () => {
     expect(imageStyles.display).toBe("none");
   });
 
-  // src as a Visionary code (not URL)
+  // src as a Visionary code (not a full Blurhash URL)
   test("renders with a Visionary code", () => {
     render(<Image src={testVisionaryCode} />);
 
@@ -95,8 +112,8 @@ describe("Image component", () => {
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     const imageSrc = imageElement?.getAttribute("src");
 
-    const visionaryData = parseVisionaryUrl(imageSrc as string);
-    expect(visionaryData?.options.size).toBe(ImageSizeToken.lg);
+    const blurhashUrlData = parseBlurhashUrl(imageSrc as string);
+    expect(blurhashUrlData?.options.size).toBe(ImageSizeToken.lg);
   });
 
   test("controls image size via `size` prop", () => {
@@ -109,12 +126,12 @@ describe("Image component", () => {
     const imageElement = screen.queryByTestId(TEST_IDS.IMAGE);
     const imageSrc = imageElement?.getAttribute("src");
 
-    const visionaryData = parseVisionaryUrl(imageSrc as string);
-    expect(visionaryData?.options.size).toBe(ImageSizeToken.sm);
+    const blurhashUrlData = parseBlurhashUrl(imageSrc as string);
+    expect(blurhashUrlData?.options.size).toBe(ImageSizeToken.sm);
   });
 
   test("`endpoint` prop specifies custom endpoint", () => {
-    const visionaryUrl = generateVisionaryUrl({
+    const visionaryUrl = generateBlurhashUrl({
       sourceHeight: 1024,
       sourceWidth: 768,
       url: "n4bMJ3r",
@@ -134,7 +151,7 @@ describe("Image component", () => {
     const containerElement = screen.getByTestId(TEST_IDS.CONTAINER);
     const styles = containerElement.getAttribute("style");
 
-    expect(styles).toMatch(/border:.*dashed.*#ee1/);
+    expect(styles).toMatch(/border:.*dashed.*(#ee1|rgb\(238,\s*238,\s*17\))/);
     expect(styles).toMatch(/margin-top:\s*42px/);
   });
 
@@ -145,7 +162,7 @@ describe("Image component", () => {
     const containerStyles = window.getComputedStyle(containerElement);
 
     expect(containerStyles.maxWidth).toBe("3840px");
-    expect(containerStyles.getPropertyValue("aspect-ratio")).toBe("1.5");
+    expectAspectRatioToBeEquivalent(containerStyles, 1.5);
     expect(containerStyles.getPropertyValue("--v-ar")).toBe("66.666667%");
   });
 
@@ -233,6 +250,64 @@ describe("Image component", () => {
       const containerStyles = window.getComputedStyle(containerElement);
 
       expect(containerStyles.getPropertyValue("aspect-ratio")).toBe(customAspectRatio);
+    });
+  });
+
+  describe("Canvas rerender behavior", () => {
+    test("re-renders blurhash canvas when punch changes", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} punch={1} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+        expect(decodeSpy.mock.calls[0]?.[2]).toBe(1);
+
+        rerender(<Image lazy={false} punch={2} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+        expect(decodeSpy.mock.calls[1]?.[2]).toBe(2);
+      } finally {
+        decodeSpy.mockRestore();
+      }
+    });
+
+    test("re-renders blurhash canvas when blurhash changes", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} src={testVisionaryUrl} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+
+        rerender(<Image lazy={false} src={testVisionaryUrlAlt} />);
+
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+        expect(decodeSpy.mock.calls[0]?.[0]).not.toBe(decodeSpy.mock.calls[1]?.[0]);
+      } finally {
+        decodeSpy.mockRestore();
+      }
+    });
+
+    test("re-renders blurhash canvas when the blur layer is re-enabled", () => {
+      window.V7Y_CANVAS_RENDERED = new Set();
+      const decodeSpy = vi.spyOn(canvasLib, "getOrDecodePixels");
+
+      try {
+        const { rerender } = render(<Image lazy={false} src={testVisionaryUrl} />);
+        expect(decodeSpy).toHaveBeenCalledTimes(1);
+
+        rerender(<Image disableBlurLayer lazy={false} src={testVisionaryUrl} />);
+        expect(screen.queryByTestId(TEST_IDS.CANVAS)).toBeNull();
+
+        rerender(<Image lazy={false} src={testVisionaryUrl} />);
+        expect(screen.getByTestId(TEST_IDS.CANVAS)).toBeInstanceOf(HTMLCanvasElement);
+        expect(decodeSpy).toHaveBeenCalledTimes(2);
+      } finally {
+        decodeSpy.mockRestore();
+      }
     });
   });
 

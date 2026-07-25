@@ -1,21 +1,27 @@
-name: Visionary Image — CI/CD Workflow
+name: Visionary Image CI — Build and test
 
 on:
+  pull_request:
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - "*"
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22, 24]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
         with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build
-      - run: npm test
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm test

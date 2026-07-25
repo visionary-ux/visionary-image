@@ -11,16 +11,20 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - uses: actions/checkout@v6
 
-      - run: npm ci
-      - run: npm run build
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
 
       - name: Build Storybook
-        run: npm run build-storybook
+        run: pnpm run build-storybook
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/master'
