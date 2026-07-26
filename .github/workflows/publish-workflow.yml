@@ -60,7 +60,15 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - run: pnpm run types:validate
+      - name: Select npm dist-tag
+        run: |
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if [[ "$PKG_VERSION" == *-* ]]; then
+            echo "NPM_DIST_TAG=next" >> "$GITHUB_ENV"
+          else
+            echo "NPM_DIST_TAG=latest" >> "$GITHUB_ENV"
+          fi
       - name: Publish dry-run
-        run: npm publish --dry-run --tag next
+        run: npm publish --dry-run --tag "$NPM_DIST_TAG"
       - name: Publish to npm
-        run: npm publish --tag next
+        run: npm publish --tag "$NPM_DIST_TAG"

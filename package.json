@@ -1,7 +1,7 @@
 {
   "name": "visionary-image",
   "description": "Visionary Image — The easiest way to Blurhash. Renders true-to-size placeholders that eliminate layout shift and crush Core Web Vitals. SSR-ready React & Web Components.",
-  "version": "1.1.0-pre.0",
+  "version": "1.1.0",
   "homepage": "https://visionary.cloud",
   "type": "module",
   "main": "./dist/visionary-image.cjs",
