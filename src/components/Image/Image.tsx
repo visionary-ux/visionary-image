@@ -211,6 +211,7 @@ export const Image = ({
   const imageComponent = (
     <div
       className={containerClasses}
+      data-v7y
       ref={containerRef}
       style={containerStyles}
       {...getDebugIdProp(imageState.url, debug)}

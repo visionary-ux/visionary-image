@@ -1,11 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { generateBlurhashUrl, parseBlurhashUrl } from "blurhash-url";
 import { ImageSizeToken } from "blurhash-url/constants";
+import { renderToString } from "react-dom/server";
 import { describe, expect, test, vi } from "vitest";
 
 import { Image } from "../Image";
 
 import * as canvasLib from "../../../lib/canvas";
+import { CANVAS_SIZE } from "../../../lib/constants";
 import { TEST_IDS } from "../../../lib/test";
 
 const testVisionaryUrl =
@@ -19,9 +21,7 @@ const testVisionaryCode =
 const expectAspectRatioToBeEquivalent = (styles: CSSStyleDeclaration, expectedAspectRatio: number) => {
   const aspectRatio = styles.getPropertyValue("aspect-ratio");
 
-  if (!aspectRatio) {
-    return;
-  }
+  expect(aspectRatio).toBeTruthy();
 
   const [width, height = "1"] = aspectRatio.split("/");
   const actualAspectRatio = Number(width.trim()) / Number(height.trim());
@@ -39,24 +39,29 @@ describe("Image component", () => {
     expect(containerElement).toBeInstanceOf(HTMLDivElement);
 
     const containerStyles = window.getComputedStyle(containerElement);
+    expect(containerElement.hasAttribute("data-v7y")).toBe(true);
     expect(containerStyles.maxWidth).toBe("1280px");
     expectAspectRatioToBeEquivalent(containerStyles, 1.500586);
     expect(containerStyles.getPropertyValue("--v-ar")).toBe("66.640632%");
 
     const canvasElement = containerElement.children[0];
     expect(canvasElement).toBeInstanceOf(HTMLCanvasElement);
-    expect(canvasElement).toHaveProperty("className");
-    expect(canvasElement).toHaveProperty("height");
-    expect(canvasElement).toHaveProperty("width");
+    expect(canvasElement.getAttribute("width")).toBe(String(CANVAS_SIZE));
+    expect(canvasElement.getAttribute("height")).toBe(String(CANVAS_SIZE));
+    expect(canvasElement.hasAttribute("data-v7y-key")).toBe(true);
 
     const imageElement = containerElement.children[1];
     expect(imageElement).toBeInstanceOf(HTMLImageElement);
-    expect(imageElement).toHaveProperty("src");
-    expect(imageElement).toHaveProperty("className");
+    expect(imageElement.getAttribute("src")).toContain("blue-flower-dark.jpg");
     expect(imageElement.getAttribute("alt")).toEqual(altText);
 
     const imageStyles = window.getComputedStyle(imageElement);
     expect(imageStyles.display).not.toBe("none");
+  });
+
+  test("emits the ownership marker in SSR output", () => {
+    const html = renderToString(<Image alt="SSR marker test" src={testVisionaryUrl} />);
+    expect(html).toContain("data-v7y");
   });
 
   test("renders with blur disabled", () => {
