@@ -19,7 +19,15 @@ React image component with built-in Blurhash placeholders for better UX and Core
 
 ### Lighthouse Performance
 
-Lighthouse report filmstrip showing three-layer image loading process
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://cdn.visionary.cloud/image/VGVpcWpoQkJrRCExNTY2ITM3OCEyYzNjMzQhTDEzSjB0dDdYNXQ3aGFheW9mYXlRQ2F5ZTpheQ/lg/core-web-vitals-100-dark.jpg" />
+  <img src="https://cdn.visionary.cloud/image/OF9XODQ5OHJFdSE5OTYhMjIyIWY3ZmNmYSFMa1JwYXF4dW9meHVfTW9mZjZrQ3hialtheWpb/lg/core-web-vitals-100-light.jpg" alt="Example Lighthouse report showing scores of 100 across Performance, Accessibility, Best Practices, and SEO" width="640" />
+</picture>
+
+[See our PageSpeed Insights Report →](https://pagespeed.web.dev/analysis/https-visionary-cloud-gallery/w2oqqf6ldj?form_factor=desktop)
+
+Lighthouse filmstrip showing the three-layer load: background color → Blurhash → full image
+
 ![Lighthouse report loading stage filmstrip](https://github.com/user-attachments/assets/20fd15ad-6801-4105-b75d-bf12cc8c704e)
 
 ## Installation
