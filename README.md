@@ -24,7 +24,7 @@ SSR-ready Blurhash placeholders for React and Web Components that speed up pagel
   <img src="https://cdn.visionary.cloud/image/OF9XODQ5OHJFdSE5OTYhMjIyIWY3ZmNmYSFMa1JwYXF4dW9meHVfTW9mZjZrQ3hialtheWpb/lg/core-web-vitals-100-light.jpg" alt="Example Lighthouse report showing scores of 100 across Performance, Accessibility, Best Practices, and SEO" width="640" />
 </picture>
 
-[See our PageSpeed Insights Report →](https://pagespeed.web.dev/analysis/https-visionary-cloud-gallery/w2oqqf6ldj?form_factor=desktop)
+[See our PageSpeed Insights Report →](https://pagespeed.web.dev/analysis/https-visionary-cloud-gallery/eyfz76k2k6?form_factor=desktop)
 
 Lighthouse filmstrip showing the three-layer load: background color → Blurhash → full image
 
