@@ -2,7 +2,7 @@
 
 import react from "@vitejs/plugin-react-swc";
 import { resolve } from "path";
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import injectCssViaJs from "vite-plugin-css-injected-by-js";
 import dts from "unplugin-dts/vite";
 
@@ -44,6 +44,7 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
+    exclude: [...configDefaults.exclude, "test/browser/**", "test/worker/**"],
     globals: true,
     setupFiles: "./test/vitest.setup.ts",
   },

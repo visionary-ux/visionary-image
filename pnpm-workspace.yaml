@@ -6,6 +6,7 @@ allowBuilds:
   "@swc/core": true
   core-js: false
   esbuild: true
+  workerd: true
 minimumReleaseAgeExclude:
   - eslint-plugin-react-refresh@0.5.3
   - eslint-plugin-storybook@10.4.6
