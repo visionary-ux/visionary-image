@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       blurhash-url:
-        specifier: ^1.4.0
-        version: 1.4.0
+        specifier: 1.4.1
+        version: 1.4.1
       classnames:
         specifier: 2.5.1
         version: 2.5.1
@@ -1936,6 +1936,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.18.0:
+    resolution: {integrity: sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   ajv-draft-04@1.0.0:
     resolution: {integrity: sha512-mv00Te6nmYbRp5DCwclxtt7yV/joXJPGS7nM+97GdxvuttCOfgI3K4U25zboyeX0O+myI8ERluxQe5wljMmVIw==}
     peerDependencies:
@@ -2083,8 +2088,8 @@ packages:
   bidi-js@1.0.3:
     resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
 
-  blurhash-url@1.4.0:
-    resolution: {integrity: sha512-W2sapM2Iae20YMHdt/mnEkE1YgiyV9QK7Dhq4If6hcxxIHONHfP/dp9HbD92WsZO9C9GityXlOB2coYuTx/kfA==}
+  blurhash-url@1.4.1:
+    resolution: {integrity: sha512-b+94JaMgpCtV0yg4LltL0Msh17YmDZDRW7ExWV9NPT7f8vAGpjm1kx3QFWxY5UpF0te1+vZFfnExI/cMKNtqXQ==}
 
   brace-expansion@1.1.15:
     resolution: {integrity: sha512-EwOCDEex4quD37XhqM3omwtMoJjr//isUZz1JopUNWms+4Z2ViyM/k1YIRePpoVNnQhENnxtFjLaxNHrT7xIUg==}
@@ -3770,8 +3775,8 @@ packages:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  visionary-base64url@0.1.4:
-    resolution: {integrity: sha512-aUGGN8O0+phBR/qiGdAwmANv3BBsUAgx/47zV1ukcg2MrY0CdsM4DJDANIN2g7ouIGqawoKApZ04AMa+1PaWGA==}
+  visionary-base64url@1.0.0:
+    resolution: {integrity: sha512-W1NZie4iM4r00YYSS6qPF4acluKIFVj+XqzqeIi1asGSAFBYED80UIfQ3pOacoPqntcM+huCf5s8cUMl7J38vA==}
 
   vite-plugin-css-injected-by-js@5.0.1:
     resolution: {integrity: sha512-JSB0jjN4VCKqG7XTUdrwiIl5gA+z2yi/tAl9WHo0X4sdyJ1yrmbLOEjf95TDoDIIuKr4GJIc7lMJG0CT88eEUQ==}
@@ -5822,6 +5827,8 @@ snapshots:
 
   acorn@8.17.0: {}
 
+  acorn@8.18.0: {}
+
   ajv-draft-04@1.0.0(ajv@8.20.0):
     optionalDependencies:
       ajv: 8.20.0
@@ -5988,9 +5995,9 @@ snapshots:
     dependencies:
       require-from-string: 2.0.2
 
-  blurhash-url@1.4.0:
+  blurhash-url@1.4.1:
     dependencies:
-      visionary-base64url: 0.1.4
+      visionary-base64url: 1.0.0
 
   brace-expansion@1.1.15:
     dependencies:
@@ -7720,7 +7727,7 @@ snapshots:
   terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.17.0
+      acorn: 8.18.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -7899,7 +7906,7 @@ snapshots:
 
   validate-npm-package-name@5.0.1: {}
 
-  visionary-base64url@0.1.4: {}
+  visionary-base64url@1.0.0: {}
 
   vite-plugin-css-injected-by-js@5.0.1(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(sass@1.97.1)(terser@5.48.0)):
     dependencies:

@@ -11,5 +11,5 @@ minimumReleaseAgeExclude:
   - eslint-plugin-storybook@10.4.6
   - eslint@10.5.0
   - storybook@10.4.6
-  - blurhash-url@1.4.0
-  - visionary-base64url@0.1.4
+  - blurhash-url
+  - visionary-base64url
