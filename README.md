@@ -89,7 +89,7 @@ Yes. With server-side rendering (SSR) or static site generation (SSG), the place
 
 ### How long does the Blurhash canvas take to load?
 
-Canvas operations are highly efficient in modern browsers. Rendering the 24x24 pixel Blurhash placeholder typically takes around 1ms.
+Canvas operations are highly efficient in modern browsers. Rendering the 24x24 pixel Blurhash placeholder typically takes less than 1ms.
 
 ### What is Blurhash and where can I learn more?
 
