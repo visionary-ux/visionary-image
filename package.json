@@ -1,7 +1,7 @@
 {
   "name": "visionary-image",
-  "description": "Visionary Image — The easiest way to Blurhash. Renders true-to-size placeholders that eliminate layout shift and crush Core Web Vitals. SSR-ready React & Web Components.",
-  "version": "1.1.1",
+  "description": "The easiest way to use Blurhash in React and Web Components. True-to-size, SSR-ready placeholders that paint on the Critical Rendering Path and improve Core Web Vitals.",
+  "version": "1.1.2",
   "homepage": "https://visionary.cloud",
   "type": "module",
   "main": "./dist/visionary-image.cjs",
@@ -88,13 +88,15 @@
     "build:cts": "node scripts/copy-cts.mjs",
     "build-storybook": "storybook build -o storybook-static",
     "clean": "rimraf dist/",
-    "dev": "vite",
+    "dev": "vite --config examples/vite.config.ts",
     "lint": "tsc --noEmit; eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
+    "preview": "vite preview --config examples/vite.config.ts",
     "storybook": "storybook dev -p 6006 --no-open",
     "test": "vitest run",
+    "test:browser": "pnpm run build && vitest run --config test/config/vitest.browser.config.ts",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:worker": "pnpm run build && vitest run --config test/config/vitest.worker.config.ts",
     "types:validate": "attw --pack ."
   },
   "files": [
@@ -108,7 +110,7 @@
     "url": "git+https://github.com/visionary-ux/visionary-image.git"
   },
   "dependencies": {
-    "blurhash-url": "^1.4.0",
+    "blurhash-url": "1.4.1",
     "classnames": "2.5.1",
     "fast-blurhash": "1.2.0"
   },
@@ -118,6 +120,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
+    "@cloudflare/vitest-plugin": "1.1.2",
     "@microsoft/api-extractor": "^7.58.11",
     "@storybook/react": "10.5.0",
     "@storybook/react-vite": "10.5.0",
@@ -127,6 +130,7 @@
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/eslint-plugin": "8.61.0",
     "@typescript-eslint/parser": "8.61.0",
+    "@vitest/browser-playwright": "4.1.8",
     "@vitejs/plugin-legacy": "8.0.2",
     "@vitejs/plugin-react-swc": "4.3.1",
     "eslint": "10.7.0",
@@ -138,6 +142,7 @@
     "eslint-plugin-storybook": "10.5.0",
     "eslint-plugin-typescript-sort-keys": "3.3.0",
     "jsdom": "29.1.1",
+    "playwright": "1.62.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "rimraf": "6.1.2",

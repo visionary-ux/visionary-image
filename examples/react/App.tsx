@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Image } from "./components/Image/Image";
+import { Image } from "../../src/components/Image/Image";
 
 import "./App.scss";
 
@@ -19,7 +19,13 @@ function App() {
           <code>Visionary Image</code>
         </strong>
         <p>
-          For more examples, see Storybook <code>(npm run storybook)</code>
+          React <code>&lt;Image /&gt;</code>. For more examples, see Storybook{" "}
+          <code>(pnpm run storybook)</code>.
+        </p>
+        <p>
+          <a href="/">All examples</a>
+          {" · "}
+          <a href="/web-component/">Web component</a>
         </p>
       </div>
 
@@ -67,8 +73,6 @@ function App() {
           src={imageSrc}
         />
       </div>
-
-      <div></div>
     </div>
   );
 }

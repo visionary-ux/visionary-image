@@ -1,18 +1,18 @@
 # Visionary Image
 
-React image component with built-in Blurhash placeholders for better UX and Core Web Vitals.
+SSR-ready Blurhash placeholders for React and Web Components that speed up pageload and improve Core Web Vitals.
 
-![GitHub Release](https://img.shields.io/github/v/release/visionary-ux/visionary-image?color=beige) [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master)](https://github.com/visionary-ux/visionary-image/actions/workflows/ci-cd-workflow.yml?query=branch%3Amaster) [![npm package size (minzipped, via Bundlephobia)](https://img.shields.io/bundlephobia/minzip/visionary-image?color=blue)](https://bundlephobia.com/package/visionary-image) ![NPM Downloads](https://img.shields.io/npm/d18m/visionary-image?color=lightgray) [![Storybook demo](https://img.shields.io/badge/-Storybook-FF4785?logo=storybook&logoColor=white)](https://visionary-ux.github.io/visionary-image/)
+![GitHub Release](https://img.shields.io/github/v/release/visionary-ux/visionary-image?color=beige) [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/visionary-ux/visionary-image/.github%2Fworkflows%2Fci-cd-workflow.yml?branch=master)](https://github.com/visionary-ux/visionary-image/actions/workflows/ci-cd-workflow.yml?query=branch%3Amaster) [![NPM bundle size](https://deno.bundlejs.com/badge?q=visionary-image&config=%7Besbuild:%7Bexternal:%5B'react','react-dom'%5D%7D%7D)](https://bundlejs.com/?q=visionary-image&config=%7Besbuild:%7Bexternal:%5B'react','react-dom'%5D%7D%7D) ![NPM Downloads](https://img.shields.io/npm/d18m/visionary-image?color=lightgray) [![Storybook demo](https://img.shields.io/badge/-Storybook-FF4785?logo=storybook&logoColor=white)](https://visionary-ux.github.io/visionary-image/)
 
 ## Features
 
 - **Easy Blurhash:** Get started with Blurhash in 60 seconds.
 - **Layout stability**: Eliminates Cumulative Layout Shift (CLS) with true-to-size, responsive placeholders.
 - **Automatic lazy loading**: Off-screen images are deferred, reducing initial pageload size and optimizing Interaction to Next Paint (INP).
-- **Lighning-fast previews**: Renders placeholders early (by initial DOM layout) using URL-embedded Blurhash data, powered by [`blurhash-url`](https://github.com/visionary-ux/blurhash-url).
-- **Framework tested**: Compatible with Remix, Next.js, and Vite and supports both client and server-side rendering (SSR, SSG).
+- **Lightning-fast previews**: Paints placeholders in the browser's Critical Rendering Path (at First Contentful Paint, before DOMContentLoaded) using URL-embedded Blurhash data, powered by [`blurhash-url`](https://github.com/visionary-ux/blurhash-url).
+- **Framework-ready**: Works with Next.js, Remix, and Vite and supports both client and server-side rendering (SSR, SSG).
 - **Additional features**: Prevent image dragging; prevent user selecting image
-- **Developer friendly**: Written in Typescript and [unit tested](./src/components/Image/__test__/).
+- **Developer friendly**: Written in TypeScript and [unit tested](./src/components/Image/__test__/).
   - Check out the [interactive Storybook sandbox](https://visionary-ux.github.io/visionary-image/)
 - **Search performance**: Enhance search ranking potential by improving Core Web Vitals scores.
   > "We highly recommend site owners achieve good Core Web Vitals for success with Search" — [Google Search Central](https://developers.google.com/search/docs/appearance/core-web-vitals)
@@ -24,7 +24,7 @@ React image component with built-in Blurhash placeholders for better UX and Core
   <img src="https://cdn.visionary.cloud/image/OF9XODQ5OHJFdSE5OTYhMjIyIWY3ZmNmYSFMa1JwYXF4dW9meHVfTW9mZjZrQ3hialtheWpb/lg/core-web-vitals-100-light.jpg" alt="Example Lighthouse report showing scores of 100 across Performance, Accessibility, Best Practices, and SEO" width="640" />
 </picture>
 
-[See our PageSpeed Insights Report →](https://pagespeed.web.dev/analysis/https-visionary-cloud-gallery/w2oqqf6ldj?form_factor=desktop)
+[See our PageSpeed Insights Report →](https://pagespeed.web.dev/analysis/https-visionary-cloud-gallery/eyfz76k2k6?form_factor=desktop)
 
 Lighthouse filmstrip showing the three-layer load: background color → Blurhash → full image
 
@@ -35,7 +35,7 @@ Lighthouse filmstrip showing the three-layer load: background color → Blurhash
 Install via npm, yarn, or pnpm.
 
 ```bash
-npm install --save visionary-image
+pnpm add visionary-image
 ```
 
 ## Usage
@@ -85,11 +85,11 @@ const ImageDetails = () => <Image alt="..." src="<Blurhash URL>" />;
 
 ### Do image placeholders render server-side?
 
-Yes, Visionary Image supports server-side rendering (SSR) and static site generation (SSG), as well as client-side rendering. In server-rendered scenarios, the first layer (background color) renders immediately, followed by the Blurhash and image layers once the page loads in the client's browser.
+Yes. With server-side rendering (SSR) or static site generation (SSG), the placeholder's first layer (the solid background) renders in the initial HTML. This reserves the image's layout space and is painted on the Critical Rendering Path, early enough to affect First Contentful Paint (FCP), before `DOMContentLoaded`. The Blurhash and image layers then render client-side.
 
 ### How long does the Blurhash canvas take to load?
 
-Canvas operations are highly efficient in modern browsers. Rendering the 24x24 pixel Blurhash placeholder typically takes around 1ms.
+Canvas operations are highly efficient in modern browsers. Rendering the 24x24 pixel Blurhash placeholder typically takes less than 1ms.
 
 ### What is Blurhash and where can I learn more?
 
