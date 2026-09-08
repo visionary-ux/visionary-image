@@ -1,0 +1,26 @@
+body {
+  font-family: system-ui, sans-serif;
+}
+
+h1,
+h2 {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+h1 {
+  margin: 0;
+}
+
+code {
+  font-size: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: black;
+    color: white;
+    color-scheme: dark;
+  }
+}

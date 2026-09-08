@@ -39,9 +39,6 @@ export default defineConfig({
       include: ["src/index.ts", "src/components/Image/Image.tsx", "src/types/visionary-image.ts"],
     }),
   ],
-  server: {
-    port: 5177,
-  },
   test: {
     environment: "jsdom",
     exclude: [...configDefaults.exclude, "test/browser/**", "test/worker/**"],
