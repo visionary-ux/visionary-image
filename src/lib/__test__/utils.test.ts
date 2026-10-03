@@ -1,6 +1,14 @@
 import { describe, expect, test } from "vitest";
 
-import { createUrl, round, generateRgbaString, RGB, swapUrlOrigin, getMaxEdgeLength } from "../util";
+import {
+  createUrl,
+  escapeAttr,
+  round,
+  generateRgbaString,
+  RGB,
+  swapUrlOrigin,
+  getMaxEdgeLength,
+} from "../util";
 import { IMAGE_SIZES, ImageSizeToken } from "blurhash-url/constants";
 
 describe("utils", () => {
@@ -14,6 +22,10 @@ describe("utils", () => {
     test("returns null for invalid url", () => {
       expect(createUrl("bink")).toBeNull();
     });
+  });
+
+  test(escapeAttr.name, () => {
+    expect(escapeAttr(`a&b"c<d>`)).toBe("a&amp;b&quot;c&lt;d&gt;");
   });
 
   test(generateRgbaString.name, () => {

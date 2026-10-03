@@ -4,13 +4,14 @@
  * - `visionary-image` (React component) - uses getRenderedCanvasSet(), getOrDecodePixels()
  * - `visionary-image/loader` (early loader) - calls initOnDOMLoaded()
  * - `visionary-image/blurhash` (manual) - exports initBlurhashCanvases()
+ * - `visionary-image/server` (inline loader) - calls initEagerCanvasPaint() or initOnDOMLoaded()
  * - `visionary-image/web-component` - uses getPixelCache()
  */
 
-import { decodeBlurHash } from "fast-blurhash";
 import { parseVisionaryString } from "blurhash-url";
+import { decodeBlurHash } from "fast-blurhash";
 
-import { CANVAS_SIZE, BLURHASH_PUNCH } from "./constants";
+import { BLURHASH_PUNCH, CANVAS_SIZE } from "./constants";
 
 declare global {
   interface Window {
@@ -91,7 +92,7 @@ function getSharedObserver(): IntersectionObserver {
 }
 
 /** Render blurhash to a single canvas element */
-function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
+export function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
   const canvasKey = canvas.dataset.v7yKey;
   if (!canvasKey) return;
 
@@ -208,4 +209,56 @@ export function initOnDOMLoaded(debug = false): void {
   } else {
     run();
   }
+}
+
+/** Paint every server-rendered canvas inside (or containing) `node` whose sibling `<img>` has been parsed */
+function paintCanvasesNear(node: Element, debug: boolean): void {
+  const containers = new Set<Element>();
+  const closest = node.closest("[data-v7y]");
+  if (closest) {
+    containers.add(closest);
+  }
+  node.querySelectorAll("[data-v7y]").forEach((container) => containers.add(container));
+
+  containers.forEach((container) => {
+    container
+      .querySelectorAll<HTMLCanvasElement>("canvas[data-v7y-key]")
+      .forEach((canvas) => renderCanvasBlurhash(canvas, debug));
+  });
+}
+
+/**
+ * Paints server-rendered canvases as the HTML parser reaches them, then hands off to
+ * `initBlurhashCanvases()` at DOMContentLoaded for anything missed. Only paints canvas
+ * pixels and never mutates DOM attributes, so React hydration is unaffected.
+ *
+ * Must run from a `<head>` script to observe the document while it is being parsed.
+ */
+export function initEagerCanvasPaint(debug = false): void {
+  if (typeof document === "undefined") return;
+
+  if (document.readyState !== "loading") {
+    initBlurhashCanvases(debug);
+    return;
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node instanceof Element) {
+          paintCanvasesNear(node, debug);
+        }
+      });
+    });
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      observer.disconnect();
+      initBlurhashCanvases(debug);
+    },
+    { once: true }
+  );
 }

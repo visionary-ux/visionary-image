@@ -15,6 +15,10 @@ export const createUrl = (url: string): URL | null => {
   }
 };
 
+/** Escapes a value for use inside a double-quoted HTML attribute. */
+export const escapeAttr = (value: string): string =>
+  value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 export const generateRgbaString = (rgb: RGB, alpha: number) => `rgba(${rgb.r},${rgb.g},${rgb.b},${alpha})`;
 
 export const getTestIdProp = (id: string) => {

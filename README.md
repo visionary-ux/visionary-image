@@ -58,6 +58,41 @@ import { Image } from "visionary-image";
 const ImageDetails = () => <Image alt="..." src="<Blurhash URL>" />;
 ```
 
+### Paint placeholders before hydration
+
+Inline the loader script to `<head>`, so canvases paint as the HTML parser reaches them, before React loads:
+
+```typescript
+import { renderLoaderScript } from "visionary-image/server";
+
+const script = renderLoaderScript({ eagerCanvasPaint: true });
+// renders: `<script data-eager-canvas>(function(){…})()</script>`
+```
+
+The loader paints canvas pixels only and does not change the DOM, so hydration is not affected. `<Image />` skips canvases that the loader already painted. The script adds about 4 KB (gzip) to each HTML response. Without `eagerCanvasPaint`, the loader paints at `DOMContentLoaded`, like `visionary-image/loader`.
+
+#### Next.js (App Router)
+
+```tsx
+import { LOADER_SCRIPT } from "visionary-image/server";
+
+<head>
+  <script data-eager-canvas dangerouslySetInnerHTML={{ __html: LOADER_SCRIPT }} />
+</head>;
+```
+
+#### Astro
+
+```astro
+---
+import { renderLoaderScript } from "visionary-image/server";
+---
+
+<head>
+  <Fragment set:html={renderLoaderScript({ eagerCanvasPaint: true })} />
+</head>
+```
+
 ## Component Props
 
 | Name                              | Description                                                                                                                                                                                |

@@ -39,6 +39,16 @@
         "default": "./dist/blurhash.cjs"
       }
     },
+    "./server": {
+      "import": {
+        "types": "./dist/server.d.ts",
+        "default": "./dist/server.js"
+      },
+      "require": {
+        "types": "./dist/server.d.cts",
+        "default": "./dist/server.cjs"
+      }
+    },
     "./web-component": {
       "import": {
         "types": "./dist/web-component.d.ts",
@@ -67,6 +77,9 @@
       ],
       "blurhash": [
         "./dist/blurhash.d.ts"
+      ],
+      "server": [
+        "./dist/server.d.ts"
       ],
       "web-component": [
         "./dist/web-component.d.ts"
