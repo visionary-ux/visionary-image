@@ -12,6 +12,9 @@ export const CANVAS_SIZE = 24;
 /** If Blurhash URL data is present without a specified resolution, default to `lg` (1280px) */
 export const DEFAULT_IMAGE_SIZE = ImageSizeToken.lg;
 
+/** Max decode time for `eagerCanvasPaint: "all"` before the rest wait for the viewport */
+export const EAGER_CANVAS_BUDGET_MS = 2;
+
 /** Environment */
 export const NODE_ENV = process.env.NODE_ENV;
 export const IS_DEVELOPMENT = NODE_ENV === "development";

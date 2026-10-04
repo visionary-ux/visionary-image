@@ -24,10 +24,20 @@ describe(renderLoaderScript.name, () => {
   });
 
   test("maps options to loader data attributes", () => {
-    const script = renderScript(renderLoaderScript({ debug: true, eagerCanvasPaint: true, nonce: 'abc"123' }));
+    const script = renderScript(
+      renderLoaderScript({ debug: true, eagerCanvasPaint: true, nonce: 'abc"123' })
+    );
 
     expect(script.getAttribute("nonce")).toBe('abc"123');
-    expect(script.hasAttribute("data-eager-canvas")).toBe(true);
+    expect(script.getAttribute("data-eager-canvas")).toBe("");
     expect(script.hasAttribute("data-debug")).toBe(true);
+    expect(LOADER_SCRIPT).toContain("data-eager-canvas");
+  });
+
+  test("marks paint-all mode on the script tag", () => {
+    const script = renderScript(renderLoaderScript({ eagerCanvasPaint: "all" }));
+
+    expect(script.getAttribute("data-eager-canvas")).toBe("all");
+    expect(LOADER_SCRIPT).toContain("all");
   });
 });

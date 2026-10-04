@@ -8,8 +8,11 @@ export const LOADER_SCRIPT: string = loaderSource;
 export interface LoaderScriptOptions {
   /** Enable debug logging (`data-debug`) */
   debug?: boolean;
-  /** Paint canvases as the parser reaches them (`data-eager-canvas`), recommended for images above the fold */
-  eagerCanvasPaint?: boolean;
+  /**
+   * `true` paints `priority` canvases as the parser reaches them and observes the rest (`data-eager-canvas`).
+   * `"all"` paints every canvas during parsing, up to 2ms (`data-eager-canvas="all"`).
+   */
+  eagerCanvasPaint?: boolean | "all";
   /** CSP nonce for the inline script */
   nonce?: string;
 }
@@ -20,11 +23,19 @@ export interface LoaderScriptOptions {
  */
 export const renderLoaderScript = (options: LoaderScriptOptions = {}): string => {
   const { debug, eagerCanvasPaint, nonce } = options;
-  const attrs = [
-    nonce ? ` nonce="${escapeAttr(nonce)}"` : "",
-    eagerCanvasPaint ? " data-eager-canvas" : "",
-    debug ? " data-debug" : "",
-  ].join("");
+  const attrs: string[] = [];
 
-  return `<script${attrs}>${LOADER_SCRIPT}</script>`;
+  if (nonce) {
+    attrs.push(` nonce="${escapeAttr(nonce)}"`);
+  }
+  if (eagerCanvasPaint === "all") {
+    attrs.push(` data-eager-canvas="all"`);
+  } else if (eagerCanvasPaint) {
+    attrs.push(" data-eager-canvas");
+  }
+  if (debug) {
+    attrs.push(" data-debug");
+  }
+
+  return `<script${attrs.join("")}>${LOADER_SCRIPT}</script>`;
 };
