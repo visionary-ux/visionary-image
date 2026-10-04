@@ -6,6 +6,8 @@ import { configDefaults, defineConfig } from "vitest/config";
 import injectCssViaJs from "vite-plugin-css-injected-by-js";
 import dts from "unplugin-dts/vite";
 
+import { loaderSource } from "./vite.loader-source";
+
 export default defineConfig({
   build: {
     lib: {
@@ -30,6 +32,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    loaderSource(),
     react(),
     injectCssViaJs({
       styleId: "v7y-styles",

@@ -4,13 +4,14 @@
  * - `visionary-image` (React component) - uses getRenderedCanvasSet(), getOrDecodePixels()
  * - `visionary-image/loader` (early loader) - calls initOnDOMLoaded()
  * - `visionary-image/blurhash` (manual) - exports initBlurhashCanvases()
+ * - `visionary-image/server` (inline loader) - calls initEagerCanvasPaint() or initOnDOMLoaded()
  * - `visionary-image/web-component` - uses getPixelCache()
  */
 
-import { decodeBlurHash } from "fast-blurhash";
 import { parseVisionaryString } from "blurhash-url";
+import { decodeBlurHash } from "fast-blurhash";
 
-import { CANVAS_SIZE, BLURHASH_PUNCH } from "./constants";
+import { BLURHASH_PUNCH, CANVAS_SIZE, EAGER_CANVAS_BUDGET_MS } from "./constants";
 
 declare global {
   interface Window {
@@ -91,7 +92,7 @@ function getSharedObserver(): IntersectionObserver {
 }
 
 /** Render blurhash to a single canvas element */
-function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
+export function renderCanvasBlurhash(canvas: HTMLCanvasElement, debug: boolean): void {
   const canvasKey = canvas.dataset.v7yKey;
   if (!canvasKey) return;
 
@@ -174,6 +175,10 @@ export function initBlurhashCanvases(debug = false): void {
   const observer = getSharedObserver();
 
   canvases.forEach((canvas) => {
+    const canvasKey = canvas.dataset.v7yKey;
+    if (canvasKey && getRenderedCanvasSet().has(canvasKey)) {
+      return;
+    }
     // Observe each canvas - IntersectionObserver will call renderCanvasBlurhash
     // when canvas is within 200px of viewport (fires immediately for visible ones)
     observer.observe(canvas);
@@ -208,4 +213,103 @@ export function initOnDOMLoaded(debug = false): void {
   } else {
     run();
   }
+}
+
+export type EagerCanvasMode = "all" | "priority";
+
+function forEachBlurhashCanvasAround(
+  node: Element,
+  onCanvasFound: (canvas: HTMLCanvasElement) => void
+): void {
+  const containers = new Set<Element>();
+  const closest = node.closest("[data-v7y]");
+  if (closest) {
+    containers.add(closest);
+  }
+  node.querySelectorAll("[data-v7y]").forEach((container) => containers.add(container));
+
+  containers.forEach((container) => {
+    container.querySelectorAll<HTMLCanvasElement>("canvas[data-v7y-key]").forEach(onCanvasFound);
+  });
+}
+
+function parsedSiblingImage(canvas: HTMLCanvasElement): HTMLImageElement | null {
+  const img = canvas.parentElement?.querySelector("img");
+  if (!(img instanceof HTMLImageElement) || !img.src) {
+    return null;
+  }
+  return img;
+}
+
+/**
+ * Paints server-rendered Blurhash canvases during HTML parsing. Changes canvas pixels only (does not
+ * mutate DOM attributes to guard against React hydration warnings). Must run from a `<head>` script.
+ *
+ * - `priority`: paints canvases with `<img fetchpriority="high">`. Others paint near the viewport.
+ * - `all`: paints every canvas until `EAGER_CANVAS_BUDGET_MS` of decode time, then only priority canvases.
+ */
+export function initEagerCanvasPaint(debug = false, mode: EagerCanvasMode = "priority"): void {
+  if (typeof document === "undefined") return;
+
+  loaderDebug = debug;
+
+  if (document.readyState !== "loading") {
+    initBlurhashCanvases(debug);
+    return;
+  }
+
+  const budget = { spentMs: 0 };
+  const scheduled = new WeakSet<HTMLCanvasElement>();
+
+  const paintParsedCanvases = (node: Element): void => {
+    forEachBlurhashCanvasAround(node, (canvas) => {
+      const canvasKey = canvas.dataset.v7yKey;
+      if (!canvasKey || getRenderedCanvasSet().has(canvasKey) || scheduled.has(canvas)) {
+        return;
+      }
+
+      const img = parsedSiblingImage(canvas);
+      if (!img) {
+        return;
+      }
+
+      const isPriority = img.getAttribute("fetchpriority")?.toLowerCase() === "high";
+      const withinBudget = mode === "all" && budget.spentMs < EAGER_CANVAS_BUDGET_MS;
+      if (isPriority || withinBudget) {
+        const start = performance.now();
+        renderCanvasBlurhash(canvas, debug);
+        if (mode === "all") {
+          budget.spentMs += performance.now() - start;
+        }
+        if (getRenderedCanvasSet().has(canvasKey)) {
+          return;
+        }
+      } else if (debug) {
+        console.log("[visionary-loader] Deferring canvas until it is near the viewport");
+      }
+
+      scheduled.add(canvas);
+      getSharedObserver().observe(canvas);
+    });
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node instanceof Element) {
+          paintParsedCanvases(node);
+        }
+      });
+    });
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+      observer.disconnect();
+      initBlurhashCanvases(debug);
+    },
+    { once: true }
+  );
 }

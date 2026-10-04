@@ -2,8 +2,10 @@ import { resolve } from "path";
 import { defineConfig } from "vite";
 import dts from "unplugin-dts/vite";
 
+import { loaderSource } from "./vite.loader-source";
+
 /**
- * Separate build config for non-React entries (blurhash, loader, web component).
+ * Separate build config for non-React entries (blurhash, loader, server, web component).
  */
 export default defineConfig({
   build: {
@@ -12,6 +14,7 @@ export default defineConfig({
       entry: {
         blurhash: resolve(__dirname, "src/blurhash.ts"),
         loader: resolve(__dirname, "src/loader.ts"),
+        server: resolve(__dirname, "src/server.ts"),
         "web-component": resolve(__dirname, "src/web-component.ts"),
         "web-component/register": resolve(__dirname, "src/web-component/register.ts"),
       },
@@ -20,6 +23,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    loaderSource(),
     dts({
       bundleTypes: true,
       include: [
@@ -27,6 +31,8 @@ export default defineConfig({
         "src/lib/canvas.ts",
         "src/web-component/VisionaryImageElement.ts",
         "src/loader.ts",
+        "src/server.ts",
+        "src/synthetic.d.ts",
         "src/web-component.ts",
         "src/web-component/register.ts",
       ],

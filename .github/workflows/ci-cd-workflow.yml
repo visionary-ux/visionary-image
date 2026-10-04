@@ -1,10 +1,9 @@
 name: Visionary Image CI — Build and test
 
 on:
-  pull_request:
   push:
     branches:
-      - master
+      - "*"
 
 jobs:
   build_and_test:
