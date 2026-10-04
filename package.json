@@ -1,7 +1,7 @@
 {
   "name": "visionary-image",
   "description": "The easiest way to use Blurhash in React and Web Components. True-to-size, SSR-ready placeholders that paint on the Critical Rendering Path and improve Core Web Vitals.",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "homepage": "https://visionary.cloud",
   "type": "module",
   "main": "./dist/visionary-image.cjs",
