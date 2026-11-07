@@ -3,7 +3,7 @@ import { afterEach, describe, expect, test } from "vitest";
 import { VisionaryImageElement, registerVisionaryImage } from "../../dist/web-component.js";
 
 const testVisionaryUrl =
-  "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
+  "https://visionary.test/image/dzF6aTFiQzFZZh8zODg4HzI1OTIfMDAwMDAwH1U1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
 const tagName = "visionary-image-browser-test";
 
 describe("Chromium web component runtime", () => {

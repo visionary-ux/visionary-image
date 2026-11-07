@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { getRenderedCanvasSet, initEagerCanvasPaint } from "../canvas";
 
 const testSrc =
-  "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
+  "https://visionary.test/image/dzF6aTFiQzFZZh8zODg4HzI1OTIfMDAwMDAwH1U1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
 
 const observed: Element[] = [];
 
