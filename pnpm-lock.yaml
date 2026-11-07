@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       blurhash-url:
-        specifier: 1.4.2
-        version: 1.4.2
+        specifier: 1.5.0
+        version: 1.5.0
       classnames:
         specifier: 2.5.1
         version: 2.5.1
@@ -2197,8 +2197,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  acorn@8.18.0:
-    resolution: {integrity: sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==}
+  acorn@8.19.0:
+    resolution: {integrity: sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -2352,8 +2352,8 @@ packages:
   blake3-wasm@2.1.5:
     resolution: {integrity: sha512-F1+K8EbfOZE49dtoPtmxUQrpXaBIl3ICvasLh+nJta0xkz+9kF/7uet9fLnwKqhDrmj6g+6K3Tw9yQPUg2ka5g==}
 
-  blurhash-url@1.4.2:
-    resolution: {integrity: sha512-3HpwXxv295zXa3jBq9NkTGlXzpN+IdIYca7IZcx1N98jm2JVyA6tJSYRQtRab0gwFCwZECZvNYRnQyToVdsk4Q==}
+  blurhash-url@1.5.0:
+    resolution: {integrity: sha512-gFFRJ86wQU/bSj4Bg3ryQbQSu8Bwi52xKpZ1JIg5NaSSSYjuKoDadD57HcHrUvjet46SrN25kJjHfNkvxAlEOg==}
 
   brace-expansion@1.1.15:
     resolution: {integrity: sha512-EwOCDEex4quD37XhqM3omwtMoJjr//isUZz1JopUNWms+4Z2ViyM/k1YIRePpoVNnQhENnxtFjLaxNHrT7xIUg==}
@@ -6394,7 +6394,7 @@ snapshots:
 
   acorn@8.17.0: {}
 
-  acorn@8.18.0: {}
+  acorn@8.19.0: {}
 
   ajv-draft-04@1.0.0(ajv@8.20.0):
     optionalDependencies:
@@ -6564,7 +6564,7 @@ snapshots:
 
   blake3-wasm@2.1.5: {}
 
-  blurhash-url@1.4.2:
+  blurhash-url@1.5.0:
     dependencies:
       visionary-base64url: 1.0.0
 
@@ -8373,7 +8373,7 @@ snapshots:
   terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.18.0
+      acorn: 8.19.0
       commander: 2.20.3
       source-map-support: 0.5.21
 

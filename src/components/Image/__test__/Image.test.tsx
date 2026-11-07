@@ -11,12 +11,12 @@ import { CANVAS_SIZE } from "../../../lib/constants";
 import { TEST_IDS } from "../../../lib/test";
 
 const testVisionaryUrl =
-  "https://visionary.test/image/dzF6aTFiQzFZZiEzODg4ITI1OTIhMDAwMDAwIVU1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
+  "https://visionary.test/image/dzF6aTFiQzFZZh8zODg4HzI1OTIfMDAwMDAwH1U1MURVSGZQUVJmbGtXZjZhZGpdUVJmUXU2ZlBWcmpdb35hZA/lg/blue-flower-dark.jpg";
 const testVisionaryUrlAlt =
-  "https://visionary.test/image/WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC/sm/image.jpg";
+  "https://visionary.test/image/WEFvaXU4WnNnNx8yNDAwHzMzNzMfNzI2MTVhH2RCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC/sm/image.jpg";
 
 const testVisionaryCode =
-  "WEFvaXU4WnNnNyEyNDAwITMzNzMhNzI2MTVhIWRCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC";
+  "WEFvaXU4WnNnNx8yNDAwHzMzNzMfNzI2MTVhH2RCRV86WHdLRTItOzF0U0tSUCVLfUBhS1crWFQlaiQkUmpvZzladDd0N1dC";
 
 const expectAspectRatioToBeEquivalent = (styles: CSSStyleDeclaration, expectedAspectRatio: number) => {
   const aspectRatio = styles.getPropertyValue("aspect-ratio");
